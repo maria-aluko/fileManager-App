@@ -14,9 +14,9 @@ const Header: React.FC = () => {
 
   return (
     <header className="bg-gray-800 text-white shadow-md z-10">
-      <div className="max-w-screen-xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div className="max-w-screen-2xl mx-auto  px-4 py-4 flex justify-between items-center">
         {/* Add a logo here and also make the name and the logo take you to the main page*/}
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center">
           <span className="text-2xl font-bold cursor-pointer hover:text-gray-400">File Manager</span>
         </div>
 
@@ -27,9 +27,9 @@ const Header: React.FC = () => {
             className="flex items-center space-x-2 bg-gray-700 p-2 cursor-pointer rounded-full hover:bg-gray-600"
           >
             {/* Change the word username to the actual name of the user */}
-            <span onClick={toggleDropdown} className="text-sm">Username</span>
+            <span onClick={toggleDropdown} className="text-m px-2 ml-1">Username</span>
             {/* Add an arrow down icon here */}
-            <img src={arrow_downward} alt="arrow" className="w-6 h-6 fill-current text-white" />
+            <img src={arrow_downward} alt="arrow" className="w-5 h-5 mr-2" />
           </button>
 
           {/* Dropdown Menu */}

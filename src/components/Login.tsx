@@ -24,11 +24,11 @@ const Login: React.FC = () => {
         {
           email,
           password,
-          token_name: 'your_token_name_here', // Add token_name to the request
+          token_name: 'your_token_name_here', // doesn't work without this but what should it be?
         },
         {
           headers: {
-            'Content-Type': 'application/json', // Explicitly set the content type
+            'Content-Type': 'application/json',
           },
         }
       );
@@ -44,11 +44,9 @@ const Login: React.FC = () => {
       }
     } catch (error: any) {
       if (error.response) {
-        // If there's a response error, print it
         console.error('Response error:', error.response.data);
         setError('Invalid credentials, please try again.');
       } else {
-        // For other errors (like network issues)
         setError('Something went wrong. Please try again later.');
       }
     } finally {
@@ -58,7 +56,7 @@ const Login: React.FC = () => {
   
 
   return (
-    <div className="bg-white p-6 rounded shadow-md w-96">
+    <div className="bg-white p-7 rounded shadow-md w-100">
       <h2 className="text-2xl font-bold mb-4">Login</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
@@ -88,7 +86,7 @@ const Login: React.FC = () => {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700 disabled:bg-gray-400"
+          className="w-full bg-blue-600 text-white text-xl p-2 mt-5 rounded hover:bg-blue-700 cursor-pointer"
         >
           {isLoading ? 'Logging in...' : 'Login'}
         </button>
