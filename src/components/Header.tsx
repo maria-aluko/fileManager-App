@@ -19,7 +19,15 @@ const Header: React.FC = () => {
       <div className="max-w-screen-2xl mx-auto  px-4 py-4 flex justify-between items-center">
         {/* Add a logo here and also make the name and the logo take you to the main page*/}
         <div className="flex items-center">
-          <span className="text-2xl font-bold cursor-pointer hover:text-gray-400">File Manager</span>
+          <span
+            onClick={() => {
+              // refresh page
+              navigate('/'); 
+            }}
+            className="text-2xl font-bold cursor-pointer hover:text-gray-400"
+            >
+            File Manager
+          </span>
         </div>
 
         {/* User Profile Dropdown */}
@@ -38,6 +46,16 @@ const Header: React.FC = () => {
           {isDropdownOpen && (
             <div onClick={closeDropdown} className="absolute right-0 mt-2 w-48 bg-gray-100 rounded-lg shadow-lg overflow-hidden z-20 group-hover:block">
               <ul className="text-gray-700">
+                <li>
+                  <button
+                    className="block w-full px-4 py-2 text-sm text-left hover:bg-gray-200 cursor-pointer"
+                    onClick={() => {
+                      navigate('/');
+                    }}
+                    >
+                    My Files
+                  </button>
+                </li>
                 <li>
                   <button className="block w-full px-4 py-2 text-sm text-left hover:bg-gray-200 cursor-pointer">
                     Profile

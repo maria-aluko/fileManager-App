@@ -45,7 +45,7 @@ export default function FileUploader() {
       setStatus("success");
       setFile(null);;
       alert('File uploaded successfully!');
-      navigate('/', { replace: true });
+      navigate('/', {state: {refresh: true}});
     } catch (error) {
       console.error('Error uploading file:', error);
       setStatus("error");

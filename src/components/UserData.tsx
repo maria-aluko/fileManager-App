@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import FileUploader from './FileUploader';
 import { FileDeleter } from './FileDeleter';
+import { useLocation } from 'react-router-dom';
+import file_icon from "../assets/file_icon.svg";
 
 const LoadingSpinner: React.FC = () => (
   <div className="flex justify-center items-center">
@@ -14,6 +16,9 @@ const UserData: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  const location = useLocation(); // Get the location object, which includes the state passed from navigate
+  const refresh = location.state?.refresh || false; // Check if refresh is needed
+  
   // fetch user files
   const fetchUserData = async () => {
     setIsLoading(true);
@@ -57,7 +62,7 @@ const UserData: React.FC = () => {
   useEffect(() => {
     // call the function  
     fetchUserData();
-  }, []);
+  }, [refresh]); // re-fetch files when "refresh" is true (on file upload)
 
   const handleFileDeleted = () => {
     fetchUserData(); // Re-fetch files after deletion
@@ -82,8 +87,8 @@ const UserData: React.FC = () => {
             <ul className="flex items-center flex-wrap flex-row space-x-2 space-y-2">
               {files.map((file) => (
                 <div className=' w-75 h-50 bg-gray-200 m-4 p-6 rounded-lg'>
-                  <li key={file.id} className="border-b pb-2">
-                    <p className='text-xl'><strong>File Name:</strong> {file.name}</p>
+                  <li key={file.id}>
+                    <p className='flex flex-row text-xl'><img src={file_icon} alt="file" className="w-8 h-8" /><strong>{file.name}</strong></p>
                     <p><strong>File Size:</strong> {(file.file_size/1000000).toFixed(3)} MB</p>
                     <p><strong>File Type:</strong> {file.type}</p>
                     <p><strong>File ID:</strong> {file.id}</p>

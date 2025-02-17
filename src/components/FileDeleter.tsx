@@ -11,6 +11,7 @@ interface DeleteProp {
   onDelete: () => void; // Callback function to trigger re-fetch of files
 }
 
+
 export const FileDeleter: React.FC<DeleteProp> = ({fileId, onDelete}) => {
   const [isDeleting, setIsDeleting] = useState(false);
 
@@ -21,7 +22,9 @@ export const FileDeleter: React.FC<DeleteProp> = ({fileId, onDelete}) => {
       return;
     }
     setIsDeleting(true);
-    
+
+    alert('Are you sure you want to delete this file?');
+
     try {
       await axios.delete(`https://unelmacloud.com/api/v1/file-entries/${fileId}`, {
         headers: {

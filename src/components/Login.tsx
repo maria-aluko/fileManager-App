@@ -96,6 +96,16 @@ const Login: React.FC = () => {
 
         {error && <p className="text-red-600 text-sm mt-2">{error}</p>}
       </form>
+      <div className='mt-5'>
+        <span>Not a user yet? Register here: </span>
+        <button
+          onClick={() => navigate('/newUser')}
+          className="w-full bg-blue-600 text-white text-xl p-2 mt-5 rounded hover:bg-blue-700 cursor-pointer"
+        >
+        Register
+        </button>
+      
+      </div>
     </div>
   );
 };
