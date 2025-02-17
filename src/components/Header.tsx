@@ -1,8 +1,10 @@
 import { useState } from "react";
 import arrow_downward from "../assets/arrow_downward.svg";
+import { useNavigate } from "react-router-dom";
 
 const Header: React.FC = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const toggleDropdown = () => {
     setIsDropdownOpen((prevState) => !prevState);
@@ -45,9 +47,10 @@ const Header: React.FC = () => {
                   <button
                     className="block w-full px-4 py-2 text-sm text-left hover:bg-gray-200 cursor-pointer"
                     onClick={() => {
-                      // Handle logout here
+                      // remove access token from local storage
                       localStorage.removeItem('access_token');
-                      // window.location.href = '/login';
+                      // redirect to login page
+                      navigate('/'); // Redirect to Login component
                     }}
                   >
                     Logout

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; 
 
 interface LoginResponse {
   user: {
@@ -12,6 +13,7 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -38,6 +40,7 @@ const Login: React.FC = () => {
       if (access_token) {
         localStorage.setItem('access_token', access_token);
         alert('Login successful!');
+        navigate('/user-data'); // Redirect to UserData component
       } else {
         console.error('Access token is missing in response data');
         setError('Login failed: Token not found');

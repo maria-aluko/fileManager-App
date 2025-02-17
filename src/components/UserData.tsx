@@ -64,8 +64,8 @@ const UserData: React.FC = () => {
   };
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl mb-4">Your Files</h2>
+    <div className="flex justify-center items-center flex-col p-6">
+      <h2 className="font-bold text-2xl mb-4">Your Files</h2>
 
       {isLoading ? (
         <LoadingSpinner />
@@ -81,14 +81,13 @@ const UserData: React.FC = () => {
           <div>
             <ul className="flex items-center flex-wrap flex-row space-x-2 space-y-2">
               {files.map((file) => (
-                <div className=' w-75 h-50 bg-gray-200 p-4 rounded-lg'>
+                <div className=' w-75 h-50 bg-gray-200 m-4 p-6 rounded-lg'>
                   <li key={file.id} className="border-b pb-2">
                     <p className='text-xl'><strong>File Name:</strong> {file.name}</p>
-                    <p><strong>File Size:</strong> {file.file_size} bytes</p>
+                    <p><strong>File Size:</strong> {(file.file_size/1000000).toFixed(3)} MB</p>
                     <p><strong>File Type:</strong> {file.type}</p>
                     <p><strong>File ID:</strong> {file.id}</p>
-                    {/*<p><strong>Thumbnail:</strong> How to get this?{file.thumbnail}</p>*/}
-                    <p><strong>Uploaded on:</strong> {file.created_at.slice(0, 10)}</p>
+                    {/*<p className="w-50 h-50"><strong>Thumbnail:</strong> How to get this?{file.thumbnail}</p>*/}                 <p><strong>Uploaded on:</strong> {file.created_at.slice(0, 10)}</p>
                     <FileDeleter fileId={file.id} onDelete={handleFileDeleted}/>
                   </li>
                 </div>

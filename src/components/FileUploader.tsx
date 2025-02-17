@@ -1,17 +1,23 @@
 import axios from "axios";
-import { ChangeEvent, FormEvent, useState } from "react"
+import { ChangeEvent, FormEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+const LoadingSpinner: React.FC = () => (
+  <div className="w-6 h-6 border-4 border-t-4 border-gray-300 border-solid rounded-full animate-spin"></div>
+);
 
 type UploadStatus = "idle" | "uploading" | "success" | "error";
 
 export default function FileUploader() {
   const [file, setFile] = useState<File | null> (null);
   const [status, setStatus] = useState<UploadStatus>("idle");
+  const navigate = useNavigate();
 
   function handleFileChange(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.files) {
       setFile(e.target.files[0]);
     }
-  }
+  };
 
   async function handleFileUpload(e: FormEvent) {
     e.preventDefault();
@@ -37,21 +43,23 @@ export default function FileUploader() {
         }
       );
       setStatus("success");
-      setFile(null);
-      alert('File uploaded successfully!'); 
+      setFile(null);;
+      alert('File uploaded successfully!');
+      navigate('/', { replace: true });
     } catch (error) {
       console.error('Error uploading file:', error);
+      setStatus("error");
     } finally {
       setStatus("idle");
     }
   }
 
   return (
-    <div className="space-y-4">
+    <div className="flex justify-center items-center space-y-4 flex-col">
       <div>
         <label 
           htmlFor="file-upload" 
-          className="text-2xl px-6 py-4 bg-sky-600 cursor-pointer inline-block rounded hover:bg-sky-800"
+          className="text-white text-2xl px-6 py-4 bg-sky-600 cursor-pointer inline-block rounded hover:bg-sky-800"
         >
           Choose a file
         </label>
@@ -70,17 +78,27 @@ export default function FileUploader() {
       />
 
       {file && (
-        <div>
+        <div className="flex justify-center items-center flex-col">
             <p>File name: {file.name}</p>
             <p>Size: {file.size}</p>
             <p>Type: {file.type}</p>
         </div>
       )}
-      {file && status !== "uploading" && 
-        <button onClick={handleFileUpload} className="text-2xl mx-0 my-8 px-6 py-4 bg-sky-600 p-2 cursor-pointer inline-block rounded hover:bg-sky-800">
-        Upload
-        </button>
-      } 
+
+      {status === "uploading" ? (
+        <div className="flex justify-center items-center">
+          <LoadingSpinner />
+          <p className="ml-2 text-xl">Uploading...</p>
+        </div>
+      ) : (
+      file && status === "idle" && (
+        <div className="flex justify-center items-center flex-col">
+          <button onClick={handleFileUpload} className="text-white text-2xl mx-0 my-8 px-6 py-4 bg-sky-600 p-2 cursor-pointer inline-block rounded hover:bg-sky-800">
+          Upload
+          </button>
+        </div>
+        )
+      )}
     </div>
   )
 };
