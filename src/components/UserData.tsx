@@ -78,7 +78,7 @@ const UserData: React.FC = () => {
         <div className="text-red-500">{error}</div>
       ) : files.length === 0 ? (
         <div>
-          <p>No files available. Please upload a file!</p>
+          <p className='text-xl'>No files available. Please upload a file!</p>
           <FileUploader />
         </div>
       ) : (

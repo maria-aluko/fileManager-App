@@ -59,7 +59,7 @@ export default function FileUploader() {
       <div>
         <label 
           htmlFor="file-upload" 
-          className="text-white text-2xl px-6 py-4 bg-sky-600 cursor-pointer inline-block rounded hover:bg-sky-800"
+          className="text-white text-xl mt-4 px-6 py-3 bg-sky-600 cursor-pointer inline-block rounded hover:bg-sky-800"
         >
           Choose a file
         </label>

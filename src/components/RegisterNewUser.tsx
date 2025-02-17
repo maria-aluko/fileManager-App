@@ -4,8 +4,10 @@ import { useNavigate } from "react-router-dom";
 import arrow_back from "../assets/arrow_back.svg";
 
 interface RegisterResponse {
-  user: {
-    access_token: string;
+  bootstrapData: {
+    user: {
+      access_token: string;
+    };
   };
 }
 
@@ -35,6 +37,7 @@ const Register: React.FC = () => {
         {
           email,
           password,
+          token_name: "your_token_name_here",
           password_confirmation: passwordConfirmation,
         },
         {
@@ -44,7 +47,9 @@ const Register: React.FC = () => {
         }
       );
 
-      const { access_token } = response.data.user;
+      console.log("Response from API:", response);
+
+      const {access_token} = response.data.bootstrapData.user;
       console.log("Received Access Token:", access_token);
       if (access_token) {
         localStorage.setItem("access_token", access_token);
