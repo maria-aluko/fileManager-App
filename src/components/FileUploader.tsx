@@ -1,10 +1,7 @@
 import axios from "axios";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-const LoadingSpinner: React.FC = () => (
-  <div className="w-6 h-6 border-4 border-t-4 border-gray-300 border-solid rounded-full animate-spin"></div>
-);
+import LoadingSpinner from "../utils/LoadingSpinner";
 
 type UploadStatus = "idle" | "uploading" | "success" | "error";
 
@@ -45,7 +42,7 @@ export default function FileUploader() {
       setStatus("success");
       setFile(null);;
       alert('File uploaded successfully!');
-      navigate('/', {state: {refresh: true}});
+      navigate('/');
     } catch (error) {
       console.error('Error uploading file:', error);
       setStatus("error");

@@ -1,16 +1,12 @@
 import axios from "axios";
 import delete_button from "../assets/delete_button.svg";
 import { useState } from "react";
-
-const LoadingSpinner: React.FC = () => (
-  <div className="w-6 h-6 border-4 border-t-4 border-gray-300 border-solid rounded-full animate-spin"></div>
-);
+import LoadingSpinner from "../utils/LoadingSpinner";
 
 interface DeleteProp {
   fileId: number;
   onDelete: () => void; // Callback function to trigger re-fetch of files
 }
-
 
 export const FileDeleter: React.FC<DeleteProp> = ({fileId, onDelete}) => {
   const [isDeleting, setIsDeleting] = useState(false);
