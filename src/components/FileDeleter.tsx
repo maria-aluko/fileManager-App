@@ -5,7 +5,7 @@ import LoadingSpinner from "../utils/LoadingSpinner";
 import MessageModal from "../utils/messageModal";
 
 interface DeleteProp {
-  fileId: number;
+  fileId: string;
   onDelete: () => void; // Callback function to trigger re-fetch of files
 }
 

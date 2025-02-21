@@ -5,8 +5,16 @@ import { FileDeleter } from './FileDeleter';
 import file_icon from "../assets/file_icon.svg";
 import LoadingSpinner from '../utils/LoadingSpinner';
 
+interface File {
+  id: string;
+  name: string;
+  file_size: number;
+  type: string;
+  created_at: string;
+}
+
 const UserData: React.FC = () => {
-  const [files, setFiles] = useState<any[]>([]); // Ensure it's an array by default
+  const [files, setFiles] = useState<File[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   
@@ -87,7 +95,7 @@ const UserData: React.FC = () => {
                     <p><strong>File Type:</strong> {file.type}</p>
                     <p><strong>File ID:</strong> {file.id}</p>
                     {/*<p className="w-50 h-50"><strong>Thumbnail:</strong> How to get this?{file.thumbnail}</p>*/}                 <p><strong>Uploaded on:</strong> {file.created_at.slice(0, 10)}</p>
-                    <FileDeleter fileId={file.id} onDelete={handleFileDeleted}/>
+                    <FileDeleter fileId={(file.id)} onDelete={handleFileDeleted}/>
                   </li>
                 </div>
               ))}
