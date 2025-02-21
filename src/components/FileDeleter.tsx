@@ -32,7 +32,7 @@ export const FileDeleter: React.FC<DeleteProp> = ({fileId, onDelete}) => {
           deleteForever: false,
         },
       });
-      alert('File deleted successfully!');
+
       // Trigger re-fetch of files in the parent component
       onDelete();
     } catch (error) {
@@ -48,7 +48,6 @@ export const FileDeleter: React.FC<DeleteProp> = ({fileId, onDelete}) => {
   const cancelDelete = () => {
     setIsModalOpen(false);
   };
-
 
   return (
     <div>

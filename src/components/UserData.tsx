@@ -2,24 +2,14 @@ import React, { useEffect, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import FileUploader from './FileUploader';
 import { FileDeleter } from './FileDeleter';
-import { useLocation } from 'react-router-dom';
 import file_icon from "../assets/file_icon.svg";
-
-const LoadingSpinner: React.FC = () => (
-  <div className="flex justify-center items-center">
-    <div className="w-16 h-16 border-4 border-t-4 border-gray-300 border-solid rounded-full animate-spin"></div>
-  </div>
-);
+import LoadingSpinner from '../utils/LoadingSpinner';
 
 const UserData: React.FC = () => {
   const [files, setFiles] = useState<any[]>([]); // Ensure it's an array by default
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  const location = useLocation(); // Get the location object, which includes the state passed from navigate
-  const refresh = location.state?.refresh || false; // Check if refresh is needed
   
-  // fetch user files
   const fetchUserData = async () => {
     setIsLoading(true);
     // get the token from local storage
@@ -31,7 +21,7 @@ const UserData: React.FC = () => {
       setIsLoading(false); 
       return;
     }
-    // if there, is a token, fetch
+    // if there is a token, fetch
     try {
       console.log('Fetching user data with token:', token); // debugging
       const response = await axios.get('https://unelmacloud.com/api/v1/drive/file-entries', {
@@ -62,7 +52,11 @@ const UserData: React.FC = () => {
   useEffect(() => {
     // call the function  
     fetchUserData();
-  }, [refresh]); // re-fetch files when "refresh" is true (on file upload)
+  }, []);
+
+  const handleUpload = () => {
+    fetchUserData();
+  }
 
   const handleFileDeleted = () => {
     fetchUserData(); // Re-fetch files after deletion
@@ -79,7 +73,7 @@ const UserData: React.FC = () => {
       ) : files.length === 0 ? (
         <div>
           <p className='text-xl'>No files available. Please upload a file!</p>
-          <FileUploader />
+          <FileUploader onUpload={handleUpload}/>
         </div>
       ) : (
         <div className='space-y-4'>
@@ -99,7 +93,7 @@ const UserData: React.FC = () => {
               ))}
             </ul>
           </div>
-          <FileUploader />
+          <FileUploader onUpload={handleUpload}/>
         </div>
       )}
     </div>

@@ -1,14 +1,18 @@
 import axios from "axios";
 import { ChangeEvent, FormEvent, useState } from "react";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import LoadingSpinner from "../utils/LoadingSpinner";
 
 type UploadStatus = "idle" | "uploading" | "success" | "error";
 
-export default function FileUploader() {
+interface FileUploadProps {
+  onUpload: () => void;
+}
+
+export default function FileUploader({ onUpload }: FileUploadProps) {
   const [file, setFile] = useState<File | null> (null);
   const [status, setStatus] = useState<UploadStatus>("idle");
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   function handleFileChange(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.files) {
@@ -42,7 +46,8 @@ export default function FileUploader() {
       setStatus("success");
       setFile(null);;
       alert('File uploaded successfully!');
-      navigate('/');
+      onUpload();
+      // navigate('/');
     } catch (error) {
       console.error('Error uploading file:', error);
       setStatus("error");
