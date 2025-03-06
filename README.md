@@ -17,7 +17,7 @@ Users can:
 
 API: https://unelmacloud.com/api-docs
 
-## enhancements:
+## Enhancements:
 
 - sharing option
 - folders for file types in a circle with some default folders to form a 3d circle
