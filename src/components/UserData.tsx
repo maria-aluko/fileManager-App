@@ -3,6 +3,7 @@ import axios, { AxiosError } from "axios";
 import FileUploader from "./FileUploader";
 import { FileDeleter } from "./FileDeleter";
 import { moveFiles } from "../utils/moveFiles"; // Import move function
+import FolderCreation from "./CreateFolder";
 import file_icon from "../assets/file_icon.svg";
 import LoadingSpinner from "../utils/LoadingSpinner";
 
@@ -100,8 +101,14 @@ const UserData: React.FC = () => {
   };
 
   return (
-    <div className="flex justify-center items-center flex-col p-6">
-      <h2 className="font-bold text-2xl mb-4">Your Files</h2>
+    <div className="flex justify-center items-center flex-col p-6 space-y-8">
+      <h2 className="font-bold text-2xl mb-4 mt-24">Your Files</h2> {/* Added margin-top to move below header */}
+
+      {/* Button container for File Upload and Folder Creation */}
+      <div className="flex justify-end space-x-6 w-full mb-6">
+        <FileUploader onUpload={handleUpload} />
+        <FolderCreation onFolderCreate={fetchUserData} />
+      </div>
 
       {isLoading ? (
         <LoadingSpinner />
@@ -110,48 +117,45 @@ const UserData: React.FC = () => {
       ) : files.length === 0 ? (
         <div>
           <p className="text-xl">No files available. Please upload a file!</p>
-          <FileUploader onUpload={handleUpload} />
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-4 w-full">
           <div>
-            <ul className="flex items-center flex-wrap flex-row space-x-2 space-y-2">
+            <ul className="flex items-center flex-wrap flex-row space-x-4">
               {files.map((file: File) => (
                 <div
-                  className="w-75 h-50 bg-gray-200 m-4 p-6 rounded-lg"
+                  className="w-60 h-60 bg-gray-200 m-4 p-6 rounded-lg shadow-lg flex flex-col justify-between"
                   key={file.id}
                 >
                   <li>
-                    <p className="flex flex-row text-xl">
-                      <img src={file_icon} alt="file" className="w-8 h-8" />
+                    <p className="flex items-center space-x-2 text-xl">
+                      <img src={file_icon} alt="file" className="w-10 h-10" />
                       <strong>{file.name}</strong>
                     </p>
-                    <p>
+                    <p className="text-sm mt-2">
                       <strong>File Size:</strong>{" "}
                       {(file.file_size / 1000000).toFixed(3)} MB
                     </p>
-                    <p>
+                    <p className="text-sm">
                       <strong>File Type:</strong> {file.type}
                     </p>
-                    <p>
-                      <strong>File ID:</strong> {file.id}
-                    </p>
-                    <p>
-                      <strong>Uploaded on:</strong>{" "}
-                      {file.created_at.slice(0, 10)}
+                    <p className="text-sm">
+                      <strong>Uploaded on:</strong> {file.created_at.slice(0, 10)}
                     </p>
                     <FileDeleter
                       fileId={file.id}
                       onDelete={handleFileDeleted}
                     />
-
-                    {/* Checkbox for selecting files */}
-                    <input
-                      type="checkbox"
-                      checked={selectedFiles.includes(file.id)}
-                      onChange={() => toggleFileSelection(file.id)}
-                    />
-                    <label className="ml-2">Select for moving</label>
+                    <div className="flex items-center mt-2">
+                      {/* Checkbox for selecting files */}
+                      <input
+                        type="checkbox"
+                        checked={selectedFiles.includes(file.id)}
+                        onChange={() => toggleFileSelection(file.id)}
+                        className="mr-2"
+                      />
+                      <label>Select for moving</label>
+                    </div>
                   </li>
                 </div>
               ))}
@@ -167,26 +171,22 @@ const UserData: React.FC = () => {
               onChange={(e) => setDestinationFolder(e.target.value)}
             >
               <option value="">Select Folder</option>
-              {folders.map((folder) => (
+              {folders.map((folder: File) => (
                 <option key={folder.id} value={folder.id}>
                   {folder.name}
                 </option>
               ))}
             </select>
-          </div>
 
-          {/* Move button */}
-          <button
-            onClick={handleMoveFiles}
-            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-            disabled={selectedFiles.length === 0 || !destinationFolder}
-          >
-            Move Selected Files
-          </button>
+            <button
+              onClick={handleMoveFiles}
+              className="bg-blue-500 text-white p-2 mt-4 rounded"
+            >
+              Move Files
+            </button>
+          </div>
         </div>
       )}
-      {/* File Upload */}
-      <FileUploader onUpload={handleUpload} />
     </div>
   );
 };
