@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://unelmacloud.com/api/v1/drive";
+const BASE_URL = "https://unelmacloud.com/api/v1";
 
 /**
  * Move files to another folder
@@ -19,8 +19,8 @@ export const moveFiles = async (fileIds: string[], destinationFolderId: string) 
     const response = await axios.post(
       `${BASE_URL}/file-entries/move`,
       {
-        entry_ids: fileIds,
-        destination: destinationFolderId,
+        entryIds: fileIds,
+        destinationId: destinationFolderId,
       },
       {
         headers: {
@@ -31,7 +31,11 @@ export const moveFiles = async (fileIds: string[], destinationFolderId: string) 
     );
     return response.data;
   } catch (error) {
-    console.error("Error moving files:", error);
+    if (axios.isAxiosError(error)) {
+      console.error("Error moving files:", error.response?.data || error.message);
+    } else {
+      console.error("Unexpected error:", error);
+    }
     throw error;
   }
 };
