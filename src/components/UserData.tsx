@@ -8,6 +8,7 @@ import file_icon from "../assets/file_icon.svg";
 import LoadingSpinner from "../utils/LoadingSpinner";
 import star from "../assets/star.png";
 import starFilled from "../assets/star-filled.png";
+import { useNavigate } from "react-router-dom";
 
 interface File {
   id: string;
@@ -34,6 +35,9 @@ const UserData: React.FC = () => {
   // const [selectedFileUrl, setSelectedFileUrl] = useState<string | null>(null); // State for selected file URL
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [selectedFileUrl, setSelectedFileUrl] = useState<string | null>(null);
+
+  const navigate = useNavigate();
 
   // Fetch user files
   const fetchUserData = async () => {
@@ -74,6 +78,11 @@ const UserData: React.FC = () => {
     fetchUserData();
   }, []);
 
+  // function to open the single page view
+  const handleFileClick = (fileId: string) => {
+    navigate(`/file/${fileId}`);
+  };
+
   // Handle file selection for moving
   const toggleFileSelection = (fileId: string) => {
     setSelectedFiles((prev) =>
@@ -109,14 +118,6 @@ const UserData: React.FC = () => {
   const handleFileDeleted = () => {
     fetchUserData();
   };
-
-  // const handleFileClick = (fileUrl: string) => {
-  //   setSelectedFileUrl(fileUrl);
-  // };
-
-  // const handleCloseViewer = () => {
-  //   setSelectedFileUrl(null);
-  // };
 
   const handleStarFile = async (fileId: string, fileTags: [Tag]) => {
     const token = localStorage.getItem("access_token");
@@ -186,6 +187,7 @@ const UserData: React.FC = () => {
     }
     return false;
   };
+
   return (
     <div className="flex justify-center items-center flex-col p-6 space-y-8">
       <h2 className="font-bold text-2xl mb-4 mt-24">Your Files</h2>{" "}
@@ -207,8 +209,9 @@ const UserData: React.FC = () => {
             <ul className="flex items-center flex-wrap flex-row space-x-4">
               {allItems.map((file) => (
                 <div
-                  className="w-60 h-60 bg-gray-200 m-4 p-6 rounded-lg shadow-lg flex flex-col justify-between"
+                  className="w-60 h-60 bg-gray-200 m-4 p-6 rounded-lg shadow-lg flex flex-col justify-between cursor-pointer"
                   key={file.id}
+                  onClick={() => handleFileClick(file.id)}
                 >
                   <li>
                     <div className="flex items-center space-x-2 text-xl">
