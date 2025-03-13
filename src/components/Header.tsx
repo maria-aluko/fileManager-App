@@ -12,26 +12,27 @@ const Header: React.FC = () => {
 
   const toggleDropdown = () => {
     setIsDropdownOpen((prevState) => !prevState);
-  }
+  };
 
   const closeDropdown = () => {
     setIsDropdownOpen(false);
-  }
+  };
 
   return (
+ landingPage
     <header className="bg-blue-500/80 text-white shadow-md z-10">
       <div className="max-w-screen-2xl mx-auto  px-4 py-4 flex justify-between items-center">
         {/* Add a logo here and also make the name and the logo take you to the main page*/}
         <div className="flex items-center">
         <img src={logo} alt="logo"/>
-          {/* <span
-            onClick={() => {
-              // main page
-              navigate('/'); 
+          
+              // Navigate to the homepage
+              navigate('/');
             }}
             className="text-2xl font-bold cursor-pointer hover:text-gray-400"
-            > File manager 
-          </span> */}
+          >
+            File Manager
+          </span>
         </div>
 
         {/* User Profile Dropdown */}
@@ -56,7 +57,7 @@ const Header: React.FC = () => {
                     onClick={() => {
                       navigate('/');
                     }}
-                    >
+                  >
                     My Files
                   </button>
                 </li>
@@ -69,9 +70,9 @@ const Header: React.FC = () => {
                   <button
                     className="block w-full px-4 py-2 text-sm text-left hover:bg-gray-200 cursor-pointer"
                     onClick={() => {
-                      // remove access token from local storage
+                      // Remove access token from local storage
                       localStorage.removeItem('access_token');
-                      // redirect to login page
+                      // Redirect to login page
                       navigate('/'); // Redirect to Login component
                     }}
                   >
