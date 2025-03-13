@@ -1,6 +1,10 @@
 import { useState } from "react";
 import arrow_downward from "../assets/arrow_downward.svg";
 import { useNavigate } from "react-router-dom";
+//import logo from "../images/Frame 2.svg";
+
+const logo = "/Frame 2.svg";
+
 
 const Header: React.FC = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
@@ -15,12 +19,13 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="bg-gray-800 text-white shadow-md z-10">
-      <div className="max-w-screen-2xl mx-auto px-4 py-4 flex justify-between items-center">
-        {/* Logo and clickable text for File Manager */}
+ landingPage
+    <header className="bg-blue-500/80 text-white shadow-md z-10">
+      <div className="max-w-screen-2xl mx-auto  px-4 py-4 flex justify-between items-center">
+        {/* Add a logo here and also make the name and the logo take you to the main page*/}
         <div className="flex items-center">
-          <span
-            onClick={() => {
+        <img src={logo} alt="logo"/>
+          
               // Navigate to the homepage
               navigate('/');
             }}
@@ -34,7 +39,7 @@ const Header: React.FC = () => {
         <div className="relative">
           <button
             onClick={toggleDropdown}
-            className="flex items-center space-x-2 bg-gray-700 p-2 cursor-pointer rounded-full hover:bg-gray-600"
+            className="flex items-center space-x-2  bg-pink-700 p-2 cursor-pointer rounded-full hover:bg-gray-600"
           >
             {/* Change the word username to the actual name of the user */}
             <span onClick={toggleDropdown} className="text-m px-2 ml-1">Username</span>
