@@ -6,6 +6,8 @@ import { moveFiles } from "../utils/moveFiles"; // Import move function
 import FolderCreation from "./CreateFolder";
 import file_icon from "../assets/file_icon.svg";
 import LoadingSpinner from "../utils/LoadingSpinner";
+import star from "../assets/star.png";
+import starFilled from "../assets/star-filled.png";
 
 interface File {
   id: string;
@@ -13,15 +15,24 @@ interface File {
   file_size: number;
   type: string;
   created_at: string;
+  url: string;
+  tags: [Tag];
+}
+
+interface Tag {
+  id: string;
+  name: string;
 }
 
 const UserData: React.FC = () => {
   const [files, setFiles] = useState<File[]>([]);
   const [folders, setFolders] = useState<File[]>([]); // List of folders
+  const [allItems, setAllItems] = useState<File[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
   const [destinationFolder, setDestinationFolder] = useState<string | null>(
     null
   );
+  // const [selectedFileUrl, setSelectedFileUrl] = useState<string | null>(null); // State for selected file URL
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -48,12 +59,12 @@ const UserData: React.FC = () => {
       if (Array.isArray(data.data)) {
         setFiles(data.data.filter((file: File) => file.type !== "folder"));
         setFolders(data.data.filter((file: File) => file.type === "folder"));
+        setAllItems(data.data);
         // Separate folders
       } else {
         setError("Failed to load files.");
       }
     } catch (error) {
-      const axiosError = error as AxiosError;
       console.error("Error fetching files:", error);
       setError("An error occurred while fetching files");
     } finally {
@@ -87,6 +98,7 @@ const UserData: React.FC = () => {
       fetchUserData(); // Refresh file list
     } catch (error) {
       alert("Error moving files");
+      console.log(error);
     }
   };
 
@@ -100,16 +112,91 @@ const UserData: React.FC = () => {
     fetchUserData();
   };
 
+  // const handleFileClick = (fileUrl: string) => {
+  //   setSelectedFileUrl(fileUrl);
+  // };
+
+  // const handleCloseViewer = () => {
+  //   setSelectedFileUrl(null);
+  // };
+
+  const handleStarFile = async (fileId: string, fileTags: [Tag]) => {
+    const token = localStorage.getItem("access_token");
+
+    if (!token) {
+      setError("No access token found. Please log in again.");
+      return;
+    }
+    // below is the logic to star or unstar a file using the endpoints from the documentation star and unstar
+    let url = "https://unelmacloud.com/api/v1/file-entries/star";
+    if (checkStarred(fileTags)) {
+      url = "https://unelmacloud.com/api/v1/file-entries/unstar";
+      //When unstarring remove the tags from the file
+      const updatedTags: [Tag] = [];
+      const updatedFiles = files.map((file) => {
+        if (file.id === fileId) {
+          return { ...file, tags: updatedTags };
+        } else {
+          return file;
+        }
+      });
+      setFiles(updatedFiles);
+    } else {
+      // adding tag(starred tag) from response to correct file with id=fileid
+      const updatedTags: [Tag] = [
+        {
+          id: "1",
+          name: "starred",
+        },
+      ];
+      const updatedFiles = files.map((file) => {
+        if (file.id === fileId) {
+          return { ...file, tags: updatedTags };
+        } else {
+          return file;
+        }
+      });
+      setFiles(updatedFiles);
+    }
+
+    try {
+      const requestBody = { entryIds: [fileId] };
+
+      const response = await axios.post(url, requestBody, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (err) {
+      const axiosError = err as AxiosError;
+
+      console.error("Star file error:", axiosError);
+
+      if (axiosError.response) {
+        console.error("Server response:", axiosError.response.data);
+        setError(`Error: ${JSON.stringify(axiosError.response.data)}`);
+      } else {
+        setError("Failed to star the file. Please try again.");
+      }
+    }
+  };
+
+  const checkStarred = (fileTags: [Tag]) => {
+    if (fileTags.some((tag) => tag.name === "starred")) {
+      return true;
+    }
+    return false;
+  };
   return (
     <div className="flex justify-center items-center flex-col p-6 space-y-8">
-      <h2 className="font-bold text-2xl mb-4 mt-24">Your Files</h2> {/* Added margin-top to move below header */}
-
+      <h2 className="font-bold text-2xl mb-4 mt-24">Your Files</h2>{" "}
+      {/* Added margin-top to move below header */}
       {/* Button container for File Upload and Folder Creation */}
       <div className="flex justify-end space-x-6 w-full mb-6">
         <FileUploader onUpload={handleUpload} />
         <FolderCreation onFolderCreate={fetchUserData} />
       </div>
-
       {isLoading ? (
         <LoadingSpinner />
       ) : error ? (
@@ -122,16 +209,22 @@ const UserData: React.FC = () => {
         <div className="space-y-4 w-full">
           <div>
             <ul className="flex items-center flex-wrap flex-row space-x-4">
-              {files.map((file: File) => (
+              {allItems.map((file) => (
                 <div
                   className="w-60 h-60 bg-gray-200 m-4 p-6 rounded-lg shadow-lg flex flex-col justify-between"
                   key={file.id}
                 >
                   <li>
-                    <p className="flex items-center space-x-2 text-xl">
+                    <div className="flex items-center space-x-2 text-xl">
                       <img src={file_icon} alt="file" className="w-10 h-10" />
                       <strong>{file.name}</strong>
-                    </p>
+                      <img
+                        src={checkStarred(file.tags) ? starFilled : star}
+                        alt="Star"
+                        className="cursor-pointer w-6 h-6"
+                        onClick={() => handleStarFile(file.id, file.tags)}
+                      />
+                    </div>
                     <p className="text-sm mt-2">
                       <strong>File Size:</strong>{" "}
                       {(file.file_size / 1000000).toFixed(3)} MB
@@ -140,7 +233,8 @@ const UserData: React.FC = () => {
                       <strong>File Type:</strong> {file.type}
                     </p>
                     <p className="text-sm">
-                      <strong>Uploaded on:</strong> {file.created_at.slice(0, 10)}
+                      <strong>Uploaded on:</strong>{" "}
+                      {file.created_at.slice(0, 10)}
                     </p>
                     <FileDeleter
                       fileId={file.id}
