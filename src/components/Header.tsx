@@ -19,20 +19,15 @@ const Header: React.FC = () => {
   };
 
   return (
- landingPage
+ 
     <header className="bg-blue-500/80 text-white shadow-md z-10">
       <div className="max-w-screen-2xl mx-auto  px-4 py-4 flex justify-between items-center">
         {/* Add a logo here and also make the name and the logo take you to the main page*/}
         <div className="flex items-center">
         <img src={logo} alt="logo"/>
           
-              // Navigate to the homepage
-              navigate('/');
-            }}
-            className="text-2xl font-bold cursor-pointer hover:text-gray-400"
-          >
-            File Manager
-          </span>
+      {/* // Navigate to the homepage navigate('/'); className="text-2xl font-bold cursor-pointer hover:text-gray-400" File Manager */}
+          
         </div>
 
         {/* User Profile Dropdown */}
