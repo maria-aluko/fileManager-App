@@ -80,10 +80,10 @@ export const LandingPage: React.FC = () => {
           Save !t is a File Management platform that allows you to save and store your files in a secure and easy way.
         </p>
         <div className="flex">
-          <button className="text-white bg-pink-700 py-2 px-6 rounded text-lg">
+          <button className="text-white bg-pink-700 py-2 px-6 rounded text-lg cursor-pointer">
             About Save !t
           </button>
-          <button className="ml-4 text-gray-700 bg-gray-100 py-2 px-6 hover:bg-gray-200 rounded text-lg" onClick={handleSignIn}>
+          <button className="ml-4 text-gray-700 bg-gray-100 py-2 px-6 hover:bg-gray-200 rounded text-lg cursor-pointer" onClick={handleSignIn}>
             Sign In
           </button>
         </div>

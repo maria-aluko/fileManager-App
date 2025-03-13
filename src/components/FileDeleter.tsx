@@ -2,7 +2,7 @@ import axios from "axios";
 import delete_button from "../assets/delete_button.svg";
 import { useState } from "react";
 import LoadingSpinner from "../utils/LoadingSpinner";
-import MessageModal from "../utils/messageModal";
+import MessageModal from "../utils/MessageModal";
 
 interface DeleteProp {
   fileId: string;
@@ -19,7 +19,7 @@ export const FileDeleter: React.FC<DeleteProp> = ({fileId, onDelete}) => {
       console.error('No access token found');
       return;
     }
-
+    setIsModalOpen(false);
     setIsDeleting(true);
 
     try {
@@ -40,8 +40,9 @@ export const FileDeleter: React.FC<DeleteProp> = ({fileId, onDelete}) => {
     } finally {
       // Stop the spinner after the operation is finished
       setIsDeleting(false);
-      setIsModalOpen(false);
+      
     }
+    setIsModalOpen(false);
   }
 
   // Function to handle when the user cancels the deletion
