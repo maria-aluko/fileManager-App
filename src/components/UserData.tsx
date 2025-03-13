@@ -25,7 +25,6 @@ interface Tag {
 }
 
 const UserData: React.FC = () => {
-  const [files, setFiles] = useState<File[]>([]);
   const [folders, setFolders] = useState<File[]>([]); // List of folders
   const [allItems, setAllItems] = useState<File[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
@@ -57,7 +56,6 @@ const UserData: React.FC = () => {
       const data = response.data;
 
       if (Array.isArray(data.data)) {
-        setFiles(data.data.filter((file: File) => file.type !== "folder"));
         setFolders(data.data.filter((file: File) => file.type === "folder"));
         setAllItems(data.data);
         // Separate folders
@@ -133,14 +131,14 @@ const UserData: React.FC = () => {
       url = "https://unelmacloud.com/api/v1/file-entries/unstar";
       //When unstarring remove the tags from the file
       const updatedTags: [Tag] = [];
-      const updatedFiles = files.map((file) => {
+      const updatedFiles = allItems.map((file) => {
         if (file.id === fileId) {
           return { ...file, tags: updatedTags };
         } else {
           return file;
         }
       });
-      setFiles(updatedFiles);
+      setAllItems(updatedFiles);
     } else {
       // adding tag(starred tag) from response to correct file with id=fileid
       const updatedTags: [Tag] = [
@@ -149,14 +147,14 @@ const UserData: React.FC = () => {
           name: "starred",
         },
       ];
-      const updatedFiles = files.map((file) => {
+      const updatedFiles = allItems.map((file) => {
         if (file.id === fileId) {
           return { ...file, tags: updatedTags };
         } else {
           return file;
         }
       });
-      setFiles(updatedFiles);
+      setAllItems(updatedFiles);
     }
 
     try {
@@ -191,8 +189,6 @@ const UserData: React.FC = () => {
   return (
     <div className="flex justify-center items-center flex-col p-6 space-y-8">
       <h2 className="font-bold text-2xl mb-4 mt-24">Your Files</h2>{" "}
-      {/* Added margin-top to move below header */}
-      {/* Button container for File Upload and Folder Creation */}
       <div className="flex justify-end space-x-6 w-full mb-6">
         <FileUploader onUpload={handleUpload} />
         <FolderCreation onFolderCreate={fetchUserData} />
@@ -201,7 +197,7 @@ const UserData: React.FC = () => {
         <LoadingSpinner />
       ) : error ? (
         <div className="text-red-500">{error}</div>
-      ) : files.length === 0 ? (
+      ) : allItems.length === 0 ? (
         <div>
           <p className="text-xl">No files available. Please upload a file!</p>
         </div>
