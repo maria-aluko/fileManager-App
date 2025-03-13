@@ -5,6 +5,7 @@ import UserData from './components/UserData';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Register from './components/RegisterNewUser';
+import { LandingPage } from './components/LandingPage';
 
 const App: React.FC = () => {
   const token = localStorage.getItem('access_token');
@@ -15,9 +16,12 @@ const App: React.FC = () => {
         <Header />
         <div className="flex justify-center items-center h-screen bg-gray-100 relative">
           <Routes> 
-            <Route path="/" element={token ? <UserData /> : <Login />} /> 
+            <Route path="/" element={ <LandingPage />} />
+            <Route path="/login" element={token ? <UserData /> : <Login />} /> 
             <Route path="/user-data" element={ <UserData />} />
             <Route path="/newUser" element={ <Register />} />
+            {/* <Route path="/landing" element={ <LandingPage />} /> */}
+            
           </Routes>
         </div>
         <Footer />
