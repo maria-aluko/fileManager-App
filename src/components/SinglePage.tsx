@@ -1,4 +1,3 @@
-import { Sidebar } from "./Sidebar";
 import { useState } from "react";
 import { Star, Download, Trash2, Edit } from "lucide-react";
 
@@ -16,9 +15,6 @@ export const SinglePage = () => {
   return (
     <div className="flex flex-col min-h-screen w-full">
       <div className="flex flex-grow relative flex-col md:flex-row">
-        {/* Sidebar */}
-        <Sidebar />
-
         {/* Main Content */}
         <div className="flex-grow flex flex-col md:flex-row p-4 gap-4">
           {/* File Viewer */}
