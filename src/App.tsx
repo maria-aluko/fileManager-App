@@ -17,8 +17,8 @@ const App: React.FC = () => {
         <div className="flex justify-center items-center h-screen bg-gray-100 relative">
           <Routes> 
             <Route path="/" element={ <LandingPage />} />
-            <Route path="/login" element={token ? <UserData /> : <Login />} /> 
-            <Route path="/user-data" element={ <UserData />} />
+            <Route path="/login" element={ <Login />} /> 
+            <Route path="/user-data" element={ token? <UserData /> : <Login />} />
             <Route path="/newUser" element={ <Register />} />
             {/* <Route path="/landing" element={ <LandingPage />} /> */}
             

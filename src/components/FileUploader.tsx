@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ChangeEvent, useState } from "react";
 import LoadingSpinner from "../utils/LoadingSpinner";
-import MessageModal from "../utils/messageModal";
+import MessageModal from "../utils/MessageModal";
 
 type UploadStatus = "idle" | "uploading" | "success" | "error";
 
@@ -28,6 +28,7 @@ export default function FileUploader({ onUpload }: FileUploadProps) {
       console.error("No access token found");
       return;
     }
+    setIsModalOpen(false);
     setStatus("uploading");
 
     const formData = new FormData();
@@ -52,6 +53,7 @@ export default function FileUploader({ onUpload }: FileUploadProps) {
       setStatus("error");
     } finally {
       setStatus("idle");
+
     }
     setIsModalOpen(false);
   }
