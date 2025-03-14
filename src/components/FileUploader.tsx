@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ChangeEvent, useState } from "react";
 import LoadingSpinner from "../utils/LoadingSpinner";
-import MessageModal from "../utils/messageModal";
+import MessageModal from "../utils/MessageModal";
 
 type UploadStatus = "idle" | "uploading" | "success" | "error";
 

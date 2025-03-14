@@ -1,6 +1,6 @@
 import axios from "axios";
 import { ChangeEvent, useState } from "react";
-import MessageModal from "../utils/messageModal";
+import MessageModal from "../utils/MessageModal";
 
 interface FolderFormData {
   onFolderCreate: () => void;
