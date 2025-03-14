@@ -8,6 +8,7 @@ import file_icon from "../assets/file_icon.svg";
 import LoadingSpinner from "../utils/LoadingSpinner";
 import star from "../assets/star.png";
 import starFilled from "../assets/star-filled.png";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface File {
   id: string;
@@ -31,9 +32,10 @@ const UserData: React.FC = () => {
   const [destinationFolder, setDestinationFolder] = useState<string | null>(
     null
   );
-  // const [selectedFileUrl, setSelectedFileUrl] = useState<string | null>(null); // State for selected file URL
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { fileId } = useParams<{ fileId: string }>();
+  const navigate = useNavigate();
 
   // Fetch user files
   const fetchUserData = async () => {
@@ -47,20 +49,41 @@ const UserData: React.FC = () => {
     }
 
     try {
-      const response = await axios.get(
-        "https://unelmacloud.com/api/v1/drive/file-entries",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      const data = response.data;
+      // fetches only the files in the folder with the id fileId
+      if (fileId) {
+        const params = new URLSearchParams({ parentIds: fileId });
+        const response = await axios.get(
+          `https://unelmacloud.com/api/v1/drive/file-entries?${params.toString()}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        const data = response.data;
+        setAllItems([data.data]);
 
-      if (Array.isArray(data.data)) {
-        setFolders(data.data.filter((file: File) => file.type === "folder"));
-        setAllItems(data.data);
-        // Separate folders
+        if (Array.isArray(data.data)) {
+          setFolders(data.data.filter((file: File) => file.type === "folder"));
+          setAllItems(data.data);
+        } else {
+          setError("Failed to load files.");
+        }
       } else {
-        setError("Failed to load files.");
+        // fetches all the files in the drive
+        const response = await axios.get(
+          "https://unelmacloud.com/api/v1/drive/file-entries",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        const data = response.data;
+
+        if (Array.isArray(data.data)) {
+          setFolders(data.data.filter((file: File) => file.type === "folder"));
+          setAllItems(data.data);
+          // Separate folders
+        } else {
+          setError("Failed to load files.");
+        }
       }
     } catch (error) {
       console.error("Error fetching files:", error);
@@ -73,6 +96,13 @@ const UserData: React.FC = () => {
   useEffect(() => {
     fetchUserData();
   }, []);
+
+  //handle opening folder
+  const handleFolderClick = (fileId: string, fileType: string) => {
+    if (fileType === "folder") {
+      window.location.href = `/user-data/${fileId}`;
+    }
+  };
 
   // Handle file selection for moving
   const toggleFileSelection = (fileId: string) => {
@@ -109,14 +139,6 @@ const UserData: React.FC = () => {
   const handleFileDeleted = () => {
     fetchUserData();
   };
-
-  // const handleFileClick = (fileUrl: string) => {
-  //   setSelectedFileUrl(fileUrl);
-  // };
-
-  // const handleCloseViewer = () => {
-  //   setSelectedFileUrl(null);
-  // };
 
   const handleStarFile = async (fileId: string, fileTags: [Tag]) => {
     const token = localStorage.getItem("access_token");
@@ -186,6 +208,7 @@ const UserData: React.FC = () => {
     }
     return false;
   };
+
   return (
     <div className="flex justify-center items-center flex-col p-6 space-y-8">
       <h2 className="font-bold text-2xl mb-4 mt-24">Your Files</h2>{" "}
@@ -213,7 +236,12 @@ const UserData: React.FC = () => {
                   <li>
                     <div className="flex items-center space-x-2 text-xl">
                       <img src={file_icon} alt="file" className="w-10 h-10" />
-                      <strong>{file.name}</strong>
+                      <strong
+                        onClick={() => handleFolderClick(file.id, file.type)}
+                        className="cursor-pointer hover:underline"
+                      >
+                        {file.name}
+                      </strong>
                       <img
                         src={checkStarred(file.tags) ? starFilled : star}
                         alt="Star"
