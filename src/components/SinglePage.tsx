@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Star, Download, Trash2, Edit, Save } from "lucide-react";
+import { useParams } from "react-router-dom";
 
 export const SinglePage = () => {
-  const [file, setFile] = useState({
+  /*   const [file, setFile] = useState({
     name: "Example File",
     size: "1.2 MB",
     type: "PDF",
@@ -10,11 +11,32 @@ export const SinglePage = () => {
     lastModified: "2021-09-01",
     location: "Documents",
     starred: false,
-  });
-
+  }); */
+  const { fileId } = useParams();
+  const [file, setFile] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [editName, setEditName] = useState(file.name);
+  const [editName, setEditName] = useState("");
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+
+  useEffect(() => {
+    const fetchFileData = async () => {
+      try {
+        const token = localStorage.getItem("access_token");
+        const response = await axios.get(
+          `https://unelmacloud.com/api/v1/drive/file-entries/${fileId}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        console.log(response.data);
+
+        setFile(response.data.data);
+        setEditName(response.data.name); //data.data?
+      } catch (error) {
+        console.error("Error fetching file data:", error);
+      }
+    };
+  }, []);
 
   const handleEditClick = () => {
     setIsEditing(true);
