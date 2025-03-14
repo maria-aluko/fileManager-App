@@ -28,6 +28,7 @@ const UserData: React.FC = () => {
   const [folders, setFolders] = useState<File[]>([]); // List of folders
   const [allItems, setAllItems] = useState<File[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
+  const [filterStarredFiles, setFilterStarredFiles] = useState<boolean>(true);
   const [destinationFolder, setDestinationFolder] = useState<string | null>(
     null
   );
@@ -190,6 +191,18 @@ const UserData: React.FC = () => {
     <div className="flex justify-center items-center flex-col p-6 space-y-8">
       <h2 className="font-bold text-2xl mb-4 mt-24">Your Files</h2>{" "}
       <div className="flex justify-end space-x-6 w-full mb-6">
+        {/* Checkbox for Showing only starred files */}
+        <input
+          type="checkbox"
+          id="custom-checkbox"
+          checked={filterStarredFiles}
+          onChange={() => setFilterStarredFiles(!filterStarredFiles)}
+          className="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+        />
+        <label htmlFor="custom-checkbox" className="text-gray-700">
+          Starred Files
+        </label>
+
         <FileUploader onUpload={handleUpload} />
         <FolderCreation onFolderCreate={fetchUserData} />
       </div>
@@ -205,50 +218,53 @@ const UserData: React.FC = () => {
         <div className="space-y-4 w-full">
           <div>
             <ul className="flex items-center flex-wrap flex-row space-x-4">
-              {allItems.map((file) => (
-                <div
-                  className="w-60 h-60 bg-gray-200 m-4 p-6 rounded-lg shadow-lg flex flex-col justify-between"
-                  key={file.id}
-                >
-                  <li>
-                    <div className="flex items-center space-x-2 text-xl">
-                      <img src={file_icon} alt="file" className="w-10 h-10" />
-                      <strong>{file.name}</strong>
-                      <img
-                        src={checkStarred(file.tags) ? starFilled : star}
-                        alt="Star"
-                        className="cursor-pointer w-6 h-6"
-                        onClick={() => handleStarFile(file.id, file.tags)}
+              {allItems.map((file) =>
+                // Filtering starred files if the above checkbox is checked else it returns null to map function
+                !filterStarredFiles || checkStarred(file.tags) ? (
+                  <div
+                    className="w-60 h-60 bg-gray-200 m-4 p-6 rounded-lg shadow-lg flex flex-col justify-between"
+                    key={file.id}
+                  >
+                    <li>
+                      <div className="flex items-center space-x-2 text-xl">
+                        <img src={file_icon} alt="file" className="w-10 h-10" />
+                        <strong>{file.name}</strong>
+                        <img
+                          src={checkStarred(file.tags) ? starFilled : star}
+                          alt="Star"
+                          className="cursor-pointer w-6 h-6"
+                          onClick={() => handleStarFile(file.id, file.tags)}
+                        />
+                      </div>
+                      <p className="text-sm mt-2">
+                        <strong>File Size:</strong>{" "}
+                        {(file.file_size / 1000000).toFixed(3)} MB
+                      </p>
+                      <p className="text-sm">
+                        <strong>File Type:</strong> {file.type}
+                      </p>
+                      <p className="text-sm">
+                        <strong>Uploaded on:</strong>{" "}
+                        {file.created_at.slice(0, 10)}
+                      </p>
+                      <FileDeleter
+                        fileId={file.id}
+                        onDelete={handleFileDeleted}
                       />
-                    </div>
-                    <p className="text-sm mt-2">
-                      <strong>File Size:</strong>{" "}
-                      {(file.file_size / 1000000).toFixed(3)} MB
-                    </p>
-                    <p className="text-sm">
-                      <strong>File Type:</strong> {file.type}
-                    </p>
-                    <p className="text-sm">
-                      <strong>Uploaded on:</strong>{" "}
-                      {file.created_at.slice(0, 10)}
-                    </p>
-                    <FileDeleter
-                      fileId={file.id}
-                      onDelete={handleFileDeleted}
-                    />
-                    <div className="flex items-center mt-2">
-                      {/* Checkbox for selecting files */}
-                      <input
-                        type="checkbox"
-                        checked={selectedFiles.includes(file.id)}
-                        onChange={() => toggleFileSelection(file.id)}
-                        className="mr-2"
-                      />
-                      <label>Select for moving</label>
-                    </div>
-                  </li>
-                </div>
-              ))}
+                      <div className="flex items-center mt-2">
+                        {/* Checkbox for selecting files */}
+                        <input
+                          type="checkbox"
+                          checked={selectedFiles.includes(file.id)}
+                          onChange={() => toggleFileSelection(file.id)}
+                          className="mr-2"
+                        />
+                        <label>Select for moving</label>
+                      </div>
+                    </li>
+                  </div>
+                ) : null
+              )}
             </ul>
           </div>
 
