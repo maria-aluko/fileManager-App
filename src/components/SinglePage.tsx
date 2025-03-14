@@ -14,14 +14,24 @@ export const SinglePage = () => {
 
   const [isEditing, setIsEditing] = useState(false);
   const [editName, setEditName] = useState(file.name);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
   const handleEditClick = () => {
     setIsEditing(true);
+    setEditName(file.name);
   };
 
   const handleSaveClick = () => {
     setFile({ ...file, name: editName });
     setIsEditing(false);
+  };
+
+  const handleOpenClick = () => {
+    setIsPreviewOpen(true);
+  };
+
+  const handleClosePreview = () => {
+    setIsPreviewOpen(false);
   };
 
   return (
@@ -34,16 +44,20 @@ export const SinglePage = () => {
             <div className="relative w-full h-72 md:h-96 flex items-center justify-center bg-white border rounded-lg">
               {/* Placeholder for File Preview */}
               <img
-                src="/placeholder.png"
+                src="/placeholder.png" /* TO DO: add a placeholder image!!!!!!!!!!!!!!! */
                 alt="File preview"
                 className="max-w-full max-h-full object-contain"
               />
-              {/* Star for Favorites */}
+              {/* Star for Favorites */}{" "}
+              {/* TO DO: REPLACE THE STAR icon with the one we used already */}
               <button className="absolute top-2 left-2 p-2 bg-white rounded-full shadow cursor-pointer">
                 <Star className="text-yellow-400" />
               </button>
               {/* Open in Editor */}
-              <button className="absolute bottom-2 left-2 p-2 bg-white rounded shadow cursor-pointer">
+              <button
+                onClick={handleOpenClick} // Trigger modal open
+                className="absolute bottom-2 left-2 p-2 bg-white rounded shadow cursor-pointer"
+              >
                 Open
               </button>
             </div>
@@ -57,8 +71,8 @@ export const SinglePage = () => {
                 <>
                   <input
                     type="text"
-                    value={file.name}
-                    onChange={(e) => setFile({ ...file, name: e.target.value })} // Hier wird der Name aktualisiert
+                    value={editName}
+                    onChange={(e) => setEditName(e.target.value)}
                     className="border-b border-gray-400 focus:outline-none focus:border-blue-500 text-xl font-semibold w-full"
                   />
                   <button
@@ -114,6 +128,36 @@ export const SinglePage = () => {
           </div>
         </div>
       </div>
+
+      {/* Modal for File Preview */}
+      {isPreviewOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="relative w-3/4 h-3/4 bg-white p-4 rounded-lg shadow-lg">
+            <button
+              onClick={handleClosePreview}
+              className="absolute top-2 right-2 text-white bg-red-500 p-2 rounded-full"
+            >
+              X
+            </button>
+
+            {/* Preview Content */}
+            {file.type ===
+            "PDF" /* TO DO: File Preview contains the HEADER????!!! */ ? (
+              <iframe
+                src="/path/to/your/pdf-preview.pdf" // Replace with actual PDF file URL
+                className="w-full h-full"
+                title="File Preview"
+              />
+            ) : (
+              <img
+                src="/path/to/your/image-file.jpg" // Replace with actual image file URL
+                alt="File preview"
+                className="max-w-full max-h-full object-contain"
+              />
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
