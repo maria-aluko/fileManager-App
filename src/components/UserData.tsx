@@ -209,9 +209,23 @@ const UserData: React.FC = () => {
     return false;
   };
 
+  // handle back from folder
+  const handleBack = () => {
+    navigate("/user-data/0");
+    window.location.reload();
+  };
+
   return (
     <div className="flex justify-center items-center flex-col p-6 space-y-8">
       <h2 className="font-bold text-2xl mb-4 mt-24">Your Files</h2>{" "}
+      {fileId !== "0" && (
+        <button
+          onClick={handleBack}
+          className="bg-gray-300 px-4 py-2 rounded-md shadow-md hover:bg-gray-400 cursor-pointer"
+        >
+          ← Back
+        </button>
+      )}
       <div className="flex justify-end space-x-6 w-full mb-6">
         <FileUploader onUpload={handleUpload} />
         <FolderCreation onFolderCreate={fetchUserData} />
