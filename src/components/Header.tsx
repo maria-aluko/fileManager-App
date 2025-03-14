@@ -1,6 +1,7 @@
 import { useState } from "react";
 import arrow_downward from "../assets/arrow_downward.svg";
 import { useNavigate } from "react-router-dom";
+//import { LandingPage } from "./LandingPage";
 //import logo from "../images/Frame 2.svg";
 
 const logo = "/Frame 2.svg";
@@ -20,7 +21,7 @@ const Header: React.FC = () => {
 
   return (
  
-    <header className="bg-blue-500/80 text-white shadow-md z-10">
+    <header className="bg-blue-950 text-white shadow-md z-10">
       <div className="max-w-screen-2xl mx-auto  px-4 py-4 flex justify-between items-center">
         {/* Add a logo here and also make the name and the logo take you to the main page*/}
         <div className="flex items-center">
