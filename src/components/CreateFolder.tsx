@@ -96,8 +96,8 @@ export default function FolderCreation({ onFolderCreate }: FolderFormData) {
       {/* Show folder creation modal */}
       {isFolderCreationModalOpen && (
         <div className="fixed inset-0 flex justify-center items-center z-50">
-          <div className="text-black bg-white p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
-            <p className="mb-4 text-lg text-xl text-purple-700">Create a new folder</p>
+          <div className="text-white bg-slate-800 p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
+            <p className="mb-4 text-lg text-xl text-white">Create a new folder</p>
             <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
               <div>
                 <label className="block">Folder Name:</label>
@@ -106,7 +106,7 @@ export default function FolderCreation({ onFolderCreate }: FolderFormData) {
                   value={folderName}
                   onChange={handleNameChange}
                   placeholder="Enter folder name"
-                  className="border p-2 rounded w-full"
+                  className="focus:outline-none focus:ring-2 focus:ring-purple-600 border p-2 rounded w-full"
                 />
                 {errorMessage && (
                   <p className="text-red-500 text-sm">{errorMessage}</p>

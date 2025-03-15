@@ -4,7 +4,6 @@ import FileUploader from "./FileUploader";
 import { FileDeleter } from "./FileDeleter";
 import { moveFiles } from "../utils/moveFiles"; // Import move function
 import FolderCreation from "./CreateFolder";
-import file_icon from "../assets/file_icon.svg";
 import LoadingSpinner from "../utils/LoadingSpinner";
 import star from "../assets/star.png";
 import starFilled from "../assets/star-filled.png";
