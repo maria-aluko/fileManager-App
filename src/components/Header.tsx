@@ -70,7 +70,7 @@ const Header: React.FC = () => {
                       // Remove access token from local storage
                       localStorage.removeItem("access_token");
                       // Redirect to login page
-                      navigate("/"); // Redirect to Login component
+                      navigate("/login"); // Redirect to Login component
                     }}
                   >
                     Logout
