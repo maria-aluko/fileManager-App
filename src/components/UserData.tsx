@@ -28,7 +28,7 @@ const UserData: React.FC = () => {
   const [folders, setFolders] = useState<File[]>([]); // List of folders
   const [allItems, setAllItems] = useState<File[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
-  const [filterStarredFiles, setFilterStarredFiles] = useState<boolean>(true);
+  const [filterStarredFiles, setFilterStarredFiles] = useState<boolean>(false);
   const [destinationFolder, setDestinationFolder] = useState<string | null>(
     null
   );
