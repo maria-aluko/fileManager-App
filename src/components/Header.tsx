@@ -20,14 +20,10 @@ const Header: React.FC = () => {
   return (
     <header className="bg-gray-950 text-white shadow-md z-20 border-b border-dotted border-purple-400">
       <div className="max-w-screen-2xl mx-auto px-4 py-4 flex justify-between items-center">
-
-        <button
-          onClick={() => navigate('/')}
-          className= "simpleButton"
-        > 
+        <button onClick={() => navigate("/")} className="simpleButton">
           SAVE !T
         </button>
-        
+
         <p className="font-bebas text-3xl">SAVE !T</p>
         {/* <div className="flex items-center">
           <img src={logo} alt="logo" />
@@ -35,10 +31,7 @@ const Header: React.FC = () => {
 
         {/* User Profile Dropdown */}
         <div className="relative">
-          <button
-            onClick={toggleDropdown}
-            className="simpleButton"
-          >
+          <button onClick={toggleDropdown} className="simpleButton">
             {/* Change the word username to the actual name of the user */}
             <span onClick={toggleDropdown} className="text-m px-2 ml-1">
               Username
@@ -59,6 +52,7 @@ const Header: React.FC = () => {
                     className="block w-full px-4 py-2 text-sm text-left hover:bg-gray-200 cursor-pointer"
                     onClick={() => {
                       navigate("/user-data/0");
+                      window.location.reload();
                     }}
                   >
                     My Files
