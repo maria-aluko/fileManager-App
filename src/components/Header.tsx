@@ -5,12 +5,18 @@ import { useNavigate } from "react-router-dom";
 
 const logo = "/Frame 2.svg";
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  username: string | null;
+}
+
+const Header: React.FC<HeaderProps> = ({ username }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const toggleDropdown = () => {
-    setIsDropdownOpen((prevState) => !prevState);
+    if (username) {
+      setIsDropdownOpen((prevState) => !prevState);
+    }
   };
 
   const closeDropdown = () => {
@@ -20,14 +26,10 @@ const Header: React.FC = () => {
   return (
     <header className="bg-gray-950 text-white shadow-md z-20 border-b border-dotted border-purple-400">
       <div className="max-w-screen-2xl mx-auto px-4 py-4 flex justify-between items-center">
-
-        <button
-          onClick={() => navigate('/')}
-          className= "simpleButton"
-        > 
+        <button onClick={() => navigate("/")} className="simpleButton">
           SAVE !T
         </button>
-        
+
         <p className="font-bebas text-3xl">SAVE !T</p>
         {/* <div className="flex items-center">
           <img src={logo} alt="logo" />
@@ -35,13 +37,10 @@ const Header: React.FC = () => {
 
         {/* User Profile Dropdown */}
         <div className="relative">
-          <button
-            onClick={toggleDropdown}
-            className="simpleButton"
-          >
-            {/* Change the word username to the actual name of the user */}
-            <span onClick={toggleDropdown} className="text-m px-2 ml-1">
-              Username
+          <button onClick={toggleDropdown} className="simpleButton">
+            {/* Display the username */}
+            <span className="text-m px-2 ml-1">
+              {username ? username : "Log In"}
             </span>
 
             {/* <img src={arrow_downward} alt="arrow" className="w-5 h-5 mr-2" /> */}
@@ -59,6 +58,7 @@ const Header: React.FC = () => {
                     className="block w-full px-4 py-2 text-sm text-left hover:bg-gray-200 cursor-pointer"
                     onClick={() => {
                       navigate("/user-data/0");
+                      window.location.reload();
                     }}
                   >
                     My Files
@@ -73,10 +73,12 @@ const Header: React.FC = () => {
                   <button
                     className="block w-full px-4 py-2 text-sm text-left hover:bg-gray-200 cursor-pointer"
                     onClick={() => {
-                      // Remove access token from local storage
+                      // Remove access token and username from local storage
                       localStorage.removeItem("access_token");
+                      localStorage.removeItem("username");
                       // Redirect to login page
-                      navigate("/login"); // Redirect to Login component
+                      navigate("/"); // Redirect to Login component
+                      window.location.reload();
                     }}
                   >
                     Logout
