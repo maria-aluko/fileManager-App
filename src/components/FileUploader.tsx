@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ChangeEvent, useState } from "react";
 import LoadingSpinner from "../utils/LoadingSpinner";
-import MessageModal from "../utils/MessageModal";
+import MessageModal from "../utils/messageModal";
 
 type UploadStatus = "idle" | "uploading" | "success" | "error";
 
@@ -59,10 +59,7 @@ export default function FileUploader({ onUpload }: FileUploadProps) {
 
   return (
     <div className="flex justify-center items-center flex-col">
-      <label
-        htmlFor="file-upload"
-        className="simpleButton"
-      >
+      <label htmlFor="file-upload" className="simpleButton">
         Choose a file
       </label>
       <input
