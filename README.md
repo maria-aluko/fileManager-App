@@ -25,4 +25,3 @@ API: https://unelmacloud.com/api-docs
 - opening the folder shows all the files with a blurry preview
 - opening the file with the corresponding "program" its built in in unelma cloud - pops up as an overlay
 - shows image in original size
--
