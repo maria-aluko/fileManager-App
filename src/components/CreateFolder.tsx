@@ -1,6 +1,6 @@
 import axios from "axios";
 import { ChangeEvent, useState } from "react";
-import MessageModal from "../utils/messageModal";
+import MessageModal from "../utils/MessageModal";
 
 interface FolderFormData {
   onFolderCreate: () => void;
@@ -9,7 +9,8 @@ interface FolderFormData {
 export default function FolderCreation({ onFolderCreate }: FolderFormData) {
   const [folderName, setFolderName] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
+  const [isFolderCreationModalOpen, setIsFolderCreationModalOpen] = useState(false); // Folder creation modal state
+  const [isMessageModalOpen, setIsMessageModalOpen] = useState(false); // Confirmation modal state
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -18,7 +19,7 @@ export default function FolderCreation({ onFolderCreate }: FolderFormData) {
   };
 
   const handleNewFolderClick = () => {
-    setIsModalOpen(true); // Open modal on button click
+    setIsFolderCreationModalOpen(true); // Open folder creation modal on button click
   };
 
   async function handleFolderCreation() {
@@ -51,49 +52,61 @@ export default function FolderCreation({ onFolderCreate }: FolderFormData) {
       alert("Folder created successfully");
       setFolderName(""); // Clear the input after creating the folder
       onFolderCreate();
+      setIsFolderCreationModalOpen(false); // Close folder creation modal after successful creation
     } catch (error) {
       console.error("Error creating folder:", error);
     } finally {
       setIsLoading(false);
-      setIsModalOpen(false); // Close modal after folder creation
     }
   }
 
   const handleCancel = () => {
-    setIsModalOpen(false); // Close modal on cancel
+    setIsFolderCreationModalOpen(false); // Close folder creation modal on cancel
+    setFolderName(""); // Optionally clear the folder name input
+  };
+
+  const handleMessageModalConfirm = () => {
+    setIsMessageModalOpen(false); // Close message modal
+    handleFolderCreation(); // Proceed to folder creation
+  };
+
+  const handleMessageModalCancel = () => {
+    setIsMessageModalOpen(false); // Close message modal
     setFolderName(""); // Optionally clear the folder name input
   };
 
   return (
-    <div className="flex justify-center items-center space-y-4 flex-col">
+    <div className="flex justify-center items-center flex-col">
       <button
         onClick={handleNewFolderClick}
-        className="text-white text-xl mx-0 my-8 px-6 py-2 bg-sky-600 p-2 cursor-pointer inline-block rounded hover:bg-sky-800"
+        className="simpleButton"
       >
         New Folder
       </button>
 
-      {isModalOpen && (
+      {/* Show the message modal first */}
+      {isMessageModalOpen && (
         <MessageModal
           message={`Please enter a name for your folder.`}
-          onConfirm={handleFolderCreation} // Pass the function reference
-          onCancel={handleCancel}
+          onConfirm={handleMessageModalConfirm}
+          onCancel={handleMessageModalCancel}
         />
       )}
 
-      {isModalOpen && (
+      {/* Show folder creation modal */}
+      {isFolderCreationModalOpen && (
         <div className="fixed inset-0 flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
-            <p className="mb-4 text-lg">Create a new folder</p>
+          <div className="text-white bg-slate-800 p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
+            <p className="mb-4 text-lg text-xl text-white">Create a new folder</p>
             <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
               <div>
-                <label className="block text-lg">Folder Name:</label>
+                <label className="block">Folder Name:</label>
                 <input
                   type="text"
                   value={folderName}
                   onChange={handleNameChange}
                   placeholder="Enter folder name"
-                  className="border p-2 rounded w-full"
+                  className="focus:outline-none focus:ring-2 focus:ring-purple-600 border p-2 rounded w-full"
                 />
                 {errorMessage && (
                   <p className="text-red-500 text-sm">{errorMessage}</p>
@@ -103,14 +116,14 @@ export default function FolderCreation({ onFolderCreate }: FolderFormData) {
                 type="button"
                 disabled={isLoading || !folderName}
                 onClick={handleFolderCreation}
-                className="text-white text-xl mx-2 my-6 px-4 py-2 bg-sky-600 p-2 cursor-pointer inline-block rounded hover:bg-sky-800"
+                className="simpleButton mx-2"
               >
                 {isLoading ? "Creating..." : "Create Folder"}
               </button>
               <button
                 type="button"
                 onClick={handleCancel}
-                className="text-white text-xl px-6 py-2 bg-gray-600 p-2 cursor-pointer inline-block rounded hover:bg-gray-800"
+                className="simpleButton"
               >
                 Cancel
               </button>

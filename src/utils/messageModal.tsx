@@ -6,19 +6,19 @@ interface MessageModalProps {
 
 const MessageModal: React.FC<MessageModalProps> = ({ message, onConfirm, onCancel }) => {
   return (
-    <div className="fixed inset-0 flex justify-center items-center z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
+    <div className="fixed inset-0 flex justify-center items-center z-200">
+      <div className="bg-slate-900 p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
         <p className="mb-4 text-lg">{message}</p>
         <div>
           <button 
             onClick={onConfirm}
-            className="m-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="m-2 simpleButton"
           >
             Yes
           </button>
           <button
             onClick={onCancel}
-            className="m-2 px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500"
+            className="m-2 simpleButton"
           >
             No
           </button>

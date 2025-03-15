@@ -5,7 +5,7 @@ import UserData from "./components/UserData";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Register from "./components/RegisterNewUser";
-import { LandingPage } from "./components/LandingPage";
+import { LandingPage2 } from "./components/LandingPage2";
 
 const App: React.FC = () => {
   const token = localStorage.getItem("access_token");
@@ -14,9 +14,9 @@ const App: React.FC = () => {
     <Router>
       <div className="h-screen w-screen">
         <Header />
-        <div className="flex justify-center items-center h-screen bg-gray-100 relative">
+        <div className="flex h-screen w-screen justify-start items-start">
           <Routes>
-            <Route path="/" element={<LandingPage />} />
+            <Route path="/" element={<LandingPage2 />} />
             <Route path="/login" element={<Login />} />
             <Route
               path="/user-data/:fileId"

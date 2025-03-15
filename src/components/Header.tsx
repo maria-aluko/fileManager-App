@@ -1,5 +1,5 @@
 import { useState } from "react";
-import arrow_downward from "../assets/arrow_downward.svg";
+// import arrow_downward from "../assets/arrow_downward.svg";
 import { useNavigate } from "react-router-dom";
 //import logo from "../images/Frame 2.svg";
 
@@ -18,27 +18,33 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="bg-blue-500/80 text-white shadow-md z-10">
-      <div className="max-w-screen-2xl mx-auto  px-4 py-4 flex justify-between items-center">
-        {/* Add a logo here and also make the name and the logo take you to the main page*/}
-        <div className="flex items-center">
-          <img src={logo} alt="logo" />
+    <header className="bg-gray-950 text-white shadow-md z-20 border-b border-dotted border-purple-400">
+      <div className="max-w-screen-2xl mx-auto px-4 py-4 flex justify-between items-center">
 
-          {/* // Navigate to the homepage navigate('/'); className="text-2xl font-bold cursor-pointer hover:text-gray-400" File Manager */}
-        </div>
+        <button
+          onClick={() => navigate('/')}
+          className= "simpleButton"
+        > 
+          SAVE !T
+        </button>
+        
+        <p className="font-bebas text-3xl">SAVE !T</p>
+        {/* <div className="flex items-center">
+          <img src={logo} alt="logo" />
+        </div> */}
 
         {/* User Profile Dropdown */}
         <div className="relative">
           <button
             onClick={toggleDropdown}
-            className="flex items-center space-x-2  bg-pink-700 p-2 cursor-pointer rounded-full hover:bg-gray-600"
+            className="simpleButton"
           >
             {/* Change the word username to the actual name of the user */}
             <span onClick={toggleDropdown} className="text-m px-2 ml-1">
               Username
             </span>
-            {/* Add an arrow down icon here */}
-            <img src={arrow_downward} alt="arrow" className="w-5 h-5 mr-2" />
+
+            {/* <img src={arrow_downward} alt="arrow" className="w-5 h-5 mr-2" /> */}
           </button>
 
           {/* Dropdown Menu */}
