@@ -14,7 +14,7 @@ const App: React.FC = () => {
     <Router>
       <div className="h-screen w-screen">
         <Header />
-        <div className="flex justify-center items-center h-screen bg-gray-100 relative">
+        <div className="flex h-screen w-screen justify-start items-start">
           <Routes>
             <Route path="/" element={<LandingPage2 />} />
             <Route path="/login" element={<Login />} />

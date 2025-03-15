@@ -1,7 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import arrow_back from "../assets/arrow_back.svg";
 
 interface RegisterResponse {
   bootstrapData: {
@@ -79,40 +78,41 @@ const Register: React.FC = () => {
   };
   
   return (
-    <div className="bg-white p-7 rounded shadow-md w-100">
+    <div className="flex mx-auto justify-center items-center text-white">
+      <div className="justify-center items-center mt-20 p-6 border-1 border-purple-200 rounded-md">
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="email" className="block text-sm font-medium ">
             Email:
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full mt-1 px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
+              className="w-full mt-1 px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-600"
               required
             />
           </label>
         </div>
         <div className="mb-4">
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="password" className="block text-sm font-medium">
             Password:
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full mt-1 px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
+              className="w-full mt-1 px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-600"
               required
             />
           </label>
         </div>
         <div className="mb-4">
-          <label htmlFor="passwordConfirmation" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="passwordConfirmation" className="block text-sm font-medium">
             Confirm Password:
             <input
               type="password"
               value={passwordConfirmation}
               onChange={(e) => setPasswordConfirmation(e.target.value)}
-              className="w-full mt-1 px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
+              className="w-full mt-1 px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-600"
               required
             />
           </label>
@@ -120,7 +120,7 @@ const Register: React.FC = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full bg-blue-600 text-white text-xl p-2 mt-5 rounded hover:bg-blue-700 cursor-pointer"
+            className="w-full simpleButton"
             >
             {isLoading ? "Registering..." : "Register"}
           </button>
@@ -128,12 +128,13 @@ const Register: React.FC = () => {
       <div className="mt-4">
         <button
           onClick={() => navigate('/')}
-          className= "flex items-center text-blue-600 text-sm mt-1 cursor-pointer hover:underline"
-        > <img className="h-7 w-7 mr-2" src={arrow_back} alt="arrow" />
+          className= "flex items-center text-purple-300 text-sm mt-1 cursor-pointer hover:underline"
+        > 
           Back to Login
         </button>
       </div>
       {error && <div>{error}</div>}
+    </div>
     </div>
   );
 };

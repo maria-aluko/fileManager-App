@@ -65,11 +65,13 @@ export const FileDeleter: React.FC<DeleteProp> = ({fileId, onDelete}) => {
       </button>
 
       {isModalOpen && (
+        <div className="fixed inset-0 flex justify-center items-center z-50">
         <MessageModal
           message="Are you sure you want to delete this file?"
           onConfirm={handleDelete} 
           onCancel={cancelDelete}
         />
+        </div>
       )}
     </div>
   )

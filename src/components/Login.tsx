@@ -41,6 +41,7 @@ const Login: React.FC = () => {
         localStorage.setItem("access_token", access_token);
         alert("Login successful!");
         navigate("/user-data/0"); // Redirect to UserData component
+        window.location.reload();
       } else {
         console.error("Access token is missing in response data");
         setError("Login failed: Token not found");
@@ -58,13 +59,14 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="bg-white p-7 rounded shadow-md w-100">
-      <h2 className="text-2xl font-bold mb-4">Login</h2>
+    <div className="flex mx-auto justify-center items-center text-white">
+      <div className="justify-center items-center mt-20 p-6 border-1 border-purple-200 rounded-md">
+      <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label
             htmlFor="email"
-            className="block text-sm font-medium text-gray-700"
+            className="block text-sm font-medium"
           >
             Email
           </label>
@@ -73,7 +75,7 @@ const Login: React.FC = () => {
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full mt-1 px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
+            className="w-full mt-1 px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-600"
             required
           />
         </div>
@@ -81,7 +83,7 @@ const Login: React.FC = () => {
         <div className="mb-4">
           <label
             htmlFor="password"
-            className="block text-sm font-medium text-gray-700"
+            className="block text-sm font-medium"
           >
             Password
           </label>
@@ -90,7 +92,7 @@ const Login: React.FC = () => {
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full mt-1 px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
+            className="w-full mt-1 px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-600"
             required
           />
         </div>
@@ -98,7 +100,7 @@ const Login: React.FC = () => {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full bg-blue-600 text-white text-xl p-2 mt-5 rounded hover:bg-blue-700 cursor-pointer"
+          className="simpleButton w-full"
         >
           {isLoading ? "Logging in..." : "Login"}
         </button>
@@ -109,10 +111,11 @@ const Login: React.FC = () => {
         <span>Not a user yet? Register here: </span>
         <button
           onClick={() => navigate("/newUser")}
-          className="w-full bg-blue-600 text-white text-xl p-2 mt-5 rounded hover:bg-blue-700 cursor-pointer"
+          className="w-full simpleButton mt-2"
         >
           Register
         </button>
+      </div>
       </div>
     </div>
   );

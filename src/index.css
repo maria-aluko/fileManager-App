@@ -20,6 +20,8 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Langing page button */
+
 .custom-glow-btn {
   --glow-color: rgb(217, 176, 255);
   --glow-spread-color: rgba(191, 123, 255, 0.781);
@@ -67,13 +69,117 @@
     inset 0 0 0.5em 0.25em var(--glow-color);
 }
 
+/* Main page buttons */
+
+/* From Uiverse.io by adamgiebl */ 
+.simpleButton {
+  --purple: #9B7EDA;
+  font-size: 18px;
+  padding: 0.5em 1.5em;
+  letter-spacing: 0.08em;
+  position: relative;
+  font-family: inherit;
+  border-radius: 0.6em;
+  overflow: hidden;
+  transition: all 0.3s;
+  line-height: 1.4em;
+  border: 2px solid var(--purple);
+  background: linear-gradient(to right, rgba(155, 126, 218, 0.1) 1%, transparent 40%, transparent 60%, rgba(155, 126, 218, 0.1) 100%);
+  color: var(--purple);
+  box-shadow: inset 0 0 10px rgba(155, 126, 218, 0.4), 0 0 9px 3px rgba(155, 126, 218, 0.1);
+}
+
+.simpleButton:hover {
+  color: #BFA3F3;
+  box-shadow: inset 0 0 10px rgba(155, 126, 218, 0.6), 0 0 9px 3px rgba(155, 126, 218, 0.2);
+  cursor: pointer;
+}
+
+.simpleButton:before {
+  content: "";
+  position: absolute;
+  left: -4em;
+  width: 4em;
+  height: 100%;
+  top: 0;
+  transition: transform .4s ease-in-out;
+  background: linear-gradient(to right, transparent 1%, rgba(155, 126, 218, 0.1) 40%, rgba(155, 126, 218, 0.1) 60%, transparent 100%);
+}
+
+.simpleButton:hover:before {
+  transform: translateX(15em);
+}
+
+/* Files card */
+
+.card1 {
+  background-color: #141414;
+  width: 250px;
+  height: 280px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  box-shadow: 2px 2px 19px;
+  padding: 20px;
+  text-align: start;
+}
+
+.card1::before {
+  content: "";
+  position: absolute;
+  z-index: -19;
+  width: 262px;
+  height: 296px;
+  margin: auto;
+  background: rgb(4,0,255);
+  background: linear-gradient(135deg, rgba(4,0,255,1) 0%, rgba(136,0,255,1) 35%, rgba(209,0,255,1) 100%);
+  border-radius: 6px;
+}
+
+.card1::after {
+  content: "";
+  position: absolute;
+  z-index: -19;
+  width: 262px;
+  height: 312px;
+  margin: auto;
+  background: rgb(4,0,255);
+  background: linear-gradient(135deg, rgba(4,0,255,1) 0%, rgba(136,0,255,1) 35%, rgba(209,0,255,1) 100%);
+  border-radius: 6px;
+  filter: blur(20px);
+  transition: 2s;
+}
+
+.card1:hover::after {
+  animation: cardafter 2.5s infinite forwards;
+}
+
+@keyframes cardafter {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+
 /* From Uiverse.io by csozidev */ 
 /* glowing hover card made by: csozi | Website: english.csozi.hu*/
-
+/* 
 .card {
   position: relative;
-  width: 190px;
-  height: 254px;
+  text-align: start;
+  padding: 15px;
+  width: 250px;
+  height: 300px;
   background: rgb(255, 0, 179);
   background: linear-gradient(137deg, rgb(255, 0, 179) 0%, rgba(0,212,255,1) 100%);
   transition: 0.3s ease;
@@ -96,4 +202,4 @@
 
 .card:hover {
   filter: drop-shadow(0px 0px 30px rgba(209, 38, 197, 1));
-}
+} 

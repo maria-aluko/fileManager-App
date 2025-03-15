@@ -12,7 +12,7 @@ export const LandingPage2: React.FC = () => {
     <div
       className="
         w-full
-        min-h-screen
+        h-full
         bg-center
         bg-cover
         flex
@@ -20,12 +20,16 @@ export const LandingPage2: React.FC = () => {
         items-center
         justify-center
         relative
+        overflow-auto
+        mt-[-80px]
+        flex-1
+        pb-0
       "
       style={{
         backgroundImage: `url(${backgroundImage})`,
       }}
     >
-      <div className="text-white text-center z-10">
+      <div className="text-white text-center">
         <p className="text-bold text-2xl">Welcome to</p>
         <h1 className="text-bold text-7xl mb-10 font-bebas">SAVE !T</h1>
         <button
@@ -49,7 +53,7 @@ export const LandingPage2: React.FC = () => {
         </button>
         
       </div>
-      <div className="text-white z-12 text-center w-full max-w-lg mt-20">
+      <div className="text-white text-center w-full max-w-lg mt-20">
           Save !t is a File Management platform that allows you to save and store your files in a secure and easy way.
         </div>
     </div>
