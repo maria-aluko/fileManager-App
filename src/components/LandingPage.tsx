@@ -1,15 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-//import '../../public/Frame 2.svg';
 import '../assets/Frame 2.svg';
-
-// THIS BREAKS
-// import "../images/excel.svg";
-// import "../images/pdf.svg";
-// import "../images/word.svg";
-// import "../images/mov.svg";
-// import "../images/jpg.svg";
-// import "../images/xml.svg";
 
 const images = [
   "/excel.svg",
@@ -20,16 +11,6 @@ const images = [
 ];
 
 const logo = "/Frame 2.svg";
-
-//THIS WORKS BUT IS IT NEEEDED?
-// import excel from "../images/excel.svg";
-// import pdf from "../images/pdf.svg";
-// import word from "../images/word.svg";
-// import mov from "../images/mov.svg";
-// import jpg from "../images/jpg.svg";  
-
-//const images = [ "/excel.svg", "/pdf.svg", "/word.svg", "/mov.svg","/jpg.svg", "/xml.svg" ];
-
 
 export const LandingPage: React.FC = () => {
   const [offset, setOffset] = useState(0);
