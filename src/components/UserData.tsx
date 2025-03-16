@@ -5,11 +5,19 @@ import { FileDeleter } from "./FileDeleter";
 import { moveFiles } from "../utils/moveFiles"; // Import move function
 import FolderCreation from "./CreateFolder";
 import LoadingSpinner from "../utils/LoadingSpinner";
-import star from "../assets/star.png";
-import starFilled from "../assets/star-filled.png";
+import star1 from "../assets/star1.png";
+import star2 from "../assets/star2.png";
 import { useNavigate, useParams } from "react-router-dom";
 import { Sidebar } from "./Sidebar";
 import fileIcon from "../assets/icons8-cloud-file-64.png"
+import folderIcon from '../assets/fileTypeIcons/folderIcon.png';
+import audioIcon from '../assets/fileTypeIcons/audioIcon.png';
+import docIcon from '../assets/fileTypeIcons/docIcon.png';
+import imageIcon from '../assets/fileTypeIcons/imageIcon.png';
+import videoIcon from '../assets/fileTypeIcons/videoIcon.png';
+import pdfIcon from '../assets/fileTypeIcons/pdfIcon.png';
+import zipIcon from '../assets/fileTypeIcons/zipIcon.png';
+import codeIcon from '../assets/fileTypeIcons/code.png';
 
 interface File {
   id: string;
@@ -215,6 +223,37 @@ const UserData: React.FC = () => {
     window.location.reload();
   };
 
+  // File types for icons
+  const fileTypeIcon = (file: File) => {
+    let displayIcon;
+  
+    switch (file.type.toLowerCase()) {
+      case 'folder':
+        displayIcon = folderIcon;
+        break;
+      case 'image':
+        displayIcon = imageIcon;
+        break;
+      case 'pdf':
+        displayIcon = pdfIcon;
+        break;
+      case 'zip':
+        displayIcon = zipIcon;
+        break;
+      case 'word':
+        displayIcon = docIcon;
+        break;
+      case 'video':
+        displayIcon = videoIcon;
+        break;
+      default:
+        displayIcon = fileIcon; // Default for other file types
+        break;
+    }
+  
+    return displayIcon;
+  };
+
   return (
     <div className="flex h-screen w-screen text-white">
       <aside className="bg-gray-950 w-1/6 p-5 rounded-none h-full border-r border-dotted border-purple-400">
@@ -262,12 +301,12 @@ const UserData: React.FC = () => {
                   </option>
                 ))}
               </select>
-              <button
-              onClick={handleMoveFiles}
-              className="simpleButton"
-            >
-              Move Files
-            </button>
+                <button
+                  onClick={handleMoveFiles}
+                  className="simpleButton"
+                >
+                  Move Files
+              </button>
             </>
           ) : (
             <button
@@ -326,19 +365,16 @@ const UserData: React.FC = () => {
                   <div className="relative z-10 overflow-hidden"> 
                     <li className="space-y-2">
                       <div className="flex justify-start items-start space-x-2 text-xl">
-                        <img src={fileIcon} alt="file" className="w-15 h-15" />
+
+                        <img src={fileTypeIcon(file)} alt="file" className="w-15 h-15" />
+
                         <strong
                           onClick={() => handleFolderClick(file.id, file.type)}
                           className="cursor-pointer hover:underline"
                         >
                            {file.name.length > 12 ? `${file.name.substring(0, 12)}...` : file.name}
                         </strong>
-                        <img
-                          src={checkStarred(file.tags) ? starFilled : star}
-                          alt="Star"
-                          className="cursor-pointer w-6 h-6"
-                          onClick={() => handleStarFile(file.id, file.tags)}
-                        />
+                        
                       </div>
 
                       <p className="text-sm mt-2">
@@ -361,7 +397,16 @@ const UserData: React.FC = () => {
                         />
                         <label className="cursor-pointer text-sm" htmlFor={`checkbox-${file.id}`}>Select for moving</label>
                       </div>
-                      <FileDeleter fileId={file.id} onDelete={handleFileDeleted} />
+                      <div className="flex flex-row justify-between items-center mt-2">
+                        <img
+                          src={checkStarred(file.tags) ? star2 : star1}
+                          alt="Star"
+                          className="star-button bg-none border-none cursor-pointer w-5 h-5 ml-4 "
+                          onClick={() => handleStarFile(file.id, file.tags)}
+                        />
+                        <FileDeleter fileId={file.id} onDelete={handleFileDeleted} />
+                      </div>
+                      
                     </li>
                   </div>
 
