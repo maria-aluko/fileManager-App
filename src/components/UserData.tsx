@@ -263,12 +263,12 @@ const UserData: React.FC = () => {
                   </option>
                 ))}
               </select>
-              <button
-              onClick={handleMoveFiles}
-              className="simpleButton"
-            >
-              Move Files
-            </button>
+                <button
+                  onClick={handleMoveFiles}
+                  className="simpleButton"
+                >
+                  Move Files
+              </button>
             </>
           ) : (
             <button

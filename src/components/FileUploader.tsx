@@ -1,6 +1,5 @@
 import axios from "axios";
 import { ChangeEvent, useState } from "react";
-import LoadingSpinner from "../utils/LoadingSpinner";
 import MessageModal from "../utils/messageModal";
 
 type UploadStatus = "idle" | "uploading" | "success" | "error";
@@ -60,7 +59,8 @@ export default function FileUploader({ onUpload }: FileUploadProps) {
   return (
     <div className="flex justify-center items-center flex-col">
       <label htmlFor="file-upload" className="simpleButton">
-        Choose a file
+        {status === "uploading" ? ( 'Uploading...'
+        ) : 'Choose a file'}
       </label>
       <input
         type="file"
@@ -75,13 +75,6 @@ export default function FileUploader({ onUpload }: FileUploadProps) {
           onConfirm={handleFileUpload}
           onCancel={handleCancel}
         />
-      )}
-
-      {status === "uploading" && (
-        <div className="flex justify-center items-center mt-4">
-          <LoadingSpinner />
-          <p className="ml-2 text-xl">Uploading...</p>
-        </div>
       )}
     </div>
   );
