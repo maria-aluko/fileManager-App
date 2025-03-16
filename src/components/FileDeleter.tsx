@@ -1,8 +1,8 @@
 import axios from "axios";
-import delete_button from "../assets/delete_button.svg";
+import deleteIcon from "../assets/delete.svg";
 import { useState } from "react";
 import LoadingSpinner from "../utils/LoadingSpinner";
-import MessageModal from "../utils/MessageModal";
+import MessageModal from "../utils/messageModal";
 
 interface DeleteProp {
   fileId: string;
@@ -54,13 +54,13 @@ export const FileDeleter: React.FC<DeleteProp> = ({fileId, onDelete}) => {
     <div>
       <button 
         onClick={() => setIsModalOpen(true)}
-        className="text-xl p-3 bg-grey-200 cursor-pointer inline-block rounded hover:bg-red-200 hover:border-red-800 hover:border-1"
+        className="text-xl p-3 cursor-pointer rounded star-button"
         disabled={isDeleting}
         >
         {isDeleting ? (
           <LoadingSpinner /> 
         ) : (
-          <img src={delete_button} alt="delete" className="w-5 h-5" />
+          <img src={deleteIcon} alt="delete" className="w-5 h-5" />
         )}
       </button>
 

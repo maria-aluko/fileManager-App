@@ -5,7 +5,8 @@ import { FileDeleter } from "./FileDeleter";
 import { moveFiles } from "../utils/moveFiles"; // Import move function
 import FolderCreation from "./CreateFolder";
 import LoadingSpinner from "../utils/LoadingSpinner";
-import star from "../assets/star.png";
+import star1 from "../assets/star1.png";
+import star2 from "../assets/star2.png";
 import starFilled from "../assets/star-filled.png";
 import { useNavigate, useParams } from "react-router-dom";
 import { Sidebar } from "./Sidebar";
@@ -333,12 +334,7 @@ const UserData: React.FC = () => {
                         >
                            {file.name.length > 12 ? `${file.name.substring(0, 12)}...` : file.name}
                         </strong>
-                        <img
-                          src={checkStarred(file.tags) ? starFilled : star}
-                          alt="Star"
-                          className="cursor-pointer w-6 h-6"
-                          onClick={() => handleStarFile(file.id, file.tags)}
-                        />
+                        
                       </div>
 
                       <p className="text-sm mt-2">
@@ -361,7 +357,16 @@ const UserData: React.FC = () => {
                         />
                         <label className="cursor-pointer text-sm" htmlFor={`checkbox-${file.id}`}>Select for moving</label>
                       </div>
-                      <FileDeleter fileId={file.id} onDelete={handleFileDeleted} />
+                      <div className="flex flex-row justify-between items-center mt-2">
+                        <img
+                          src={checkStarred(file.tags) ? star2 : star1}
+                          alt="Star"
+                          className="star-button bg-none border-none cursor-pointer w-5 h-5 ml-4 "
+                          onClick={() => handleStarFile(file.id, file.tags)}
+                        />
+                        <FileDeleter fileId={file.id} onDelete={handleFileDeleted} />
+                      </div>
+                      
                     </li>
                   </div>
 
