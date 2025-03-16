@@ -7,10 +7,17 @@ import FolderCreation from "./CreateFolder";
 import LoadingSpinner from "../utils/LoadingSpinner";
 import star1 from "../assets/star1.png";
 import star2 from "../assets/star2.png";
-import starFilled from "../assets/star-filled.png";
 import { useNavigate, useParams } from "react-router-dom";
 import { Sidebar } from "./Sidebar";
 import fileIcon from "../assets/icons8-cloud-file-64.png"
+import folderIcon from '../assets/fileTypeIcons/folderIcon.png';
+import audioIcon from '../assets/fileTypeIcons/audioIcon.png';
+import docIcon from '../assets/fileTypeIcons/docIcon.png';
+import imageIcon from '../assets/fileTypeIcons/imageIcon.png';
+import videoIcon from '../assets/fileTypeIcons/videoIcon.png';
+import pdfIcon from '../assets/fileTypeIcons/pdfIcon.png';
+import zipIcon from '../assets/fileTypeIcons/zipIcon.png';
+import codeIcon from '../assets/fileTypeIcons/code.png';
 
 interface File {
   id: string;
@@ -216,6 +223,37 @@ const UserData: React.FC = () => {
     window.location.reload();
   };
 
+  // File types for icons
+  const fileTypeIcon = (file: File) => {
+    let displayIcon;
+  
+    switch (file.type.toLowerCase()) {
+      case 'folder':
+        displayIcon = folderIcon;
+        break;
+      case 'image':
+        displayIcon = imageIcon;
+        break;
+      case 'pdf':
+        displayIcon = pdfIcon;
+        break;
+      case 'zip':
+        displayIcon = zipIcon;
+        break;
+      case 'word':
+        displayIcon = docIcon;
+        break;
+      case 'video':
+        displayIcon = videoIcon;
+        break;
+      default:
+        displayIcon = fileIcon; // Default for other file types
+        break;
+    }
+  
+    return displayIcon;
+  };
+
   return (
     <div className="flex h-screen w-screen text-white">
       <aside className="bg-gray-950 w-1/6 p-5 rounded-none h-full border-r border-dotted border-purple-400">
@@ -327,7 +365,9 @@ const UserData: React.FC = () => {
                   <div className="relative z-10 overflow-hidden"> 
                     <li className="space-y-2">
                       <div className="flex justify-start items-start space-x-2 text-xl">
-                        <img src={fileIcon} alt="file" className="w-15 h-15" />
+
+                        <img src={fileTypeIcon(file)} alt="file" className="w-15 h-15" />
+
                         <strong
                           onClick={() => handleFolderClick(file.id, file.type)}
                           className="cursor-pointer hover:underline"
