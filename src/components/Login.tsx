@@ -48,7 +48,6 @@ const Login: React.FC<LoginProps> = ({ setUsername }) => {
         localStorage.setItem("username", extractedUsername);
         setUsername(extractedUsername);
 
-        alert("Login successful!");
         navigate("/user-data/0"); // Redirect to UserData component
         window.location.reload();
       } else {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
 import FileUploader from "./FileUploader";
 import { FileDeleter } from "./FileDeleter";
-import { moveFiles } from "../utils/moveFiles"; // Import move function
+import { moveFiles } from "../utils/moveFiles";
 import FolderCreation from "./CreateFolder";
 import LoadingSpinner from "../utils/LoadingSpinner";
 import star1 from "../assets/star1.png";
@@ -17,7 +17,6 @@ import imageIcon from '../assets/fileTypeIcons/imageIcon.png';
 import videoIcon from '../assets/fileTypeIcons/videoIcon.png';
 import pdfIcon from '../assets/fileTypeIcons/pdfIcon.png';
 import zipIcon from '../assets/fileTypeIcons/zipIcon.png';
-import codeIcon from '../assets/fileTypeIcons/code.png';
 
 interface File {
   id: string;
@@ -129,7 +128,6 @@ const UserData: React.FC = () => {
     }
     try {
       await moveFiles(selectedFiles, destinationFolder);
-      alert("Files moved successfully!");
       setSelectedFiles([]);
       fetchUserData(); // Refresh file list
     } catch (error) {
@@ -246,6 +244,9 @@ const UserData: React.FC = () => {
       case 'video':
         displayIcon = videoIcon;
         break;
+      case 'audio':
+        displayIcon = audioIcon;
+        break;
       default:
         displayIcon = fileIcon; // Default for other file types
         break;
@@ -290,7 +291,7 @@ const UserData: React.FC = () => {
           {selectedFiles.length > 0 ? (
             <>
               <select
-                className="simpleButton mx-4" // Adjust padding here
+                className="simpleButton mx-4"
                 value={destinationFolder || ""}
                 onChange={(e) => setDestinationFolder(e.target.value)}
               >
@@ -317,27 +318,6 @@ const UserData: React.FC = () => {
             </button>
           )}
           
-            {/* <label className="block font-medium">Move to folder:</label>
-            <select
-              className="simpleButton p-18"
-              value={destinationFolder || ""}
-              onChange={(e) => setDestinationFolder(e.target.value)}
-            >
-              <option value="">Select Folder</option>
-              {folders.map((folder: File) => (
-                <option key={folder.id} value={folder.id}>
-                  {folder.name}
-                </option>
-              ))}
-            </select>
-
-            <button
-              onClick={handleMoveFiles}
-              className="simpleButton"
-            >
-              Move Files
-            </button> */}
-          
           <FileUploader onUpload={handleUpload} />
           <FolderCreation onFolderCreate={fetchUserData} />
         </div>
@@ -353,7 +333,7 @@ const UserData: React.FC = () => {
           <p className="text-xl">No files available. Please upload a file!</p>
         </div>
       ) : (
-        <div className="space-y-4  w-full">
+        <div className="space-y-4 w-full">
           <ul className="flex items-center flex-wrap flex-row space-x-14">
             {allItems.map((file) =>
               !filterStarredFiles || checkStarred(file.tags) ? (
@@ -411,7 +391,7 @@ const UserData: React.FC = () => {
                   </div>
 
                   {/* Dark overlay using absolute position */}
-                  <div className="absolute inset-0 bg-black opacity-20 rounded-xl z-0"></div>
+                  <div className="absolute inset-0 bg-black opacity-20 rounded-xl"></div>
                 </div>
               ) : null
             )}

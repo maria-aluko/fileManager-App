@@ -41,7 +41,6 @@ export default function FileUploader({ onUpload }: FileUploadProps) {
       });
       setStatus("success");
       setFile(null);
-      alert("File uploaded successfully!");
       onUpload();
     } catch (error) {
       console.error("Error uploading file:", error);
@@ -60,7 +59,7 @@ export default function FileUploader({ onUpload }: FileUploadProps) {
     <div className="flex justify-center items-center flex-col">
       <label htmlFor="file-upload" className="simpleButton">
         {status === "uploading" ? ( 'Uploading...'
-        ) : 'Choose a file'}
+        ) : 'Upload a file'}
       </label>
       <input
         type="file"

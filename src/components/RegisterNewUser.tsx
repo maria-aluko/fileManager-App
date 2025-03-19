@@ -10,7 +10,11 @@ interface RegisterResponse {
   };
 }
 
-const Register: React.FC = () => {
+interface RegisterProps {
+  setUsername: React.Dispatch<React.SetStateAction<string | null>>;
+}
+
+const Register: React.FC<RegisterProps> = ({ setUsername }) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>("");
@@ -52,8 +56,10 @@ const Register: React.FC = () => {
       console.log("Received Access Token:", access_token);
       if (access_token) {
         localStorage.setItem("access_token", access_token);
-        alert("Registration successful!");
-        navigate('/user-data'); // Redirect to UserData component
+        const extractedUsername = email.split("@")[0];
+        localStorage.setItem("username", extractedUsername);
+        setUsername(extractedUsername);
+        navigate('/user-data/0'); 
       } else {
         console.error("Access token is missing in response data");
         setError("Registration failed: Token not found");
@@ -67,9 +73,8 @@ const Register: React.FC = () => {
         
         // Provide more specific error message from the server response
         const message = error.response.data.message || "Invalid credentials, please try again.";
-        setError(message);  // Set the detailed error message from the server
+        setError(message);
       } else {
-        // If no response from the server, handle unexpected errors
         setError("Something went wrong. Please try again later.");
       }
     } finally {

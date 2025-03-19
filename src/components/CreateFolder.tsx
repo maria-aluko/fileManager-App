@@ -1,6 +1,6 @@
 import axios from "axios";
 import { ChangeEvent, useState } from "react";
-import MessageModal from "../utils/MessageModal";
+import MessageModal from "../utils/messageModal";
 
 interface FolderFormData {
   onFolderCreate: () => void;
@@ -49,7 +49,6 @@ export default function FolderCreation({ onFolderCreate }: FolderFormData) {
           },
         }
       );
-      alert("Folder created successfully");
       setFolderName(""); // Clear the input after creating the folder
       onFolderCreate();
       setIsFolderCreationModalOpen(false); // Close folder creation modal after successful creation
