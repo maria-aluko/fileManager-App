@@ -6,10 +6,14 @@ interface MessageModalProps {
 
 const MessageModal: React.FC<MessageModalProps> = ({ message, onConfirm, onCancel }) => {
   return (
-    <div className="fixed inset-0 flex justify-center items-center z-200">
-      <div className="bg-slate-900 p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
+    <div className="fixed inset-0 z-50 flex justify-center items-center">
+      {/* Overlay */}
+      <div className="fixed inset-0 bg-black opacity-60"></div>
+
+      {/* Modal Content */}
+      <div className="relative bg-slate-900 bg-pacity-100 p-6 rounded-lg shadow-lg max-w-sm w-full text-center z-60">
         <p className="mb-4 text-lg">{message}</p>
-        <div>
+        <div className="flex justify-center">
           <button 
             onClick={onConfirm}
             className="m-2 simpleButton"

@@ -5,7 +5,7 @@ export const Sidebar = () => {
   return (
     <div className="flex flex-col h-full space-y-6">
       <div>
-        <h1 className="text-2xl font-bebas">Shortcuts</h1>
+        <h1 className="text-2xl font-bebas mb-10">Shortcuts</h1>
         <button
             onClick={() => navigate('/user-data/0')}
             className= "flex items-center text-purple-300 text-xl mt-1 cursor-pointer hover:underline"
@@ -19,28 +19,22 @@ export const Sidebar = () => {
             Favorites
         </button>
         <button
-            onClick={() => navigate('/user-data/0')}
+            onClick={() => navigate('/')}
             className= "flex items-center text-purple-300 text-xl mt-1 cursor-pointer hover:underline"
           > 
-            Link somewhere
-        </button>
-        <button
-            onClick={() => navigate('/user-data/0')}
-            className= "flex items-center text-purple-300 text-xl mt-1 cursor-pointer hover:underline"
-          > 
-            Another
+            Log Out
         </button>
         <div className="h-30 border-b border-dotted border-purple-400 mb-4"></div>
-        <div className="text-purple-300 text-l mt-1">Total number of files: 
+        {/* <div className="text-purple-300 text-l mt-1">Total number of files: 
           <p className="text-sm mb-1">Number</p>
         </div>
 
         <div className="text-purple-300 text-l mt-1">Total size used + free space: 
           <p className="text-sm mb-1">Number</p>
-        </div>
+        </div> */}
           
       </div>
-
+      
       <div className="mt-auto">
         <button
             onClick={() => navigate('/')}
@@ -54,7 +48,7 @@ export const Sidebar = () => {
               transition-all
               duration-300
               cursor-pointer
-              mb-10
+              mb-20
               "
           > 
             Log Out

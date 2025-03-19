@@ -143,12 +143,12 @@
   position: absolute;
   z-index: -19;
   width: 262px;
-  height: 312px;
+  height: 296px;
   margin: auto;
   background: rgb(4,0,255);
   background: linear-gradient(135deg, rgba(4,0,255,1) 0%, rgba(136,0,255,1) 35%, rgba(209,0,255,1) 100%);
   border-radius: 6px;
-  filter: blur(20px);
+  filter: blur(5px);
   transition: 2s;
 }
 
