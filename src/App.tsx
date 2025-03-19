@@ -35,7 +35,10 @@ const App: React.FC = () => {
                 token ? <UserData /> : <Login setUsername={setUsername} />
               }
             />
-            <Route path="/newUser" element={<Register />} />
+            <Route
+              path="/newUser"
+              element={<Register setUsername={setUsername} />}
+            />
             {/* <Route path="/landing" element={ <LandingPage />} /> */}
           </Routes>
         </div>

@@ -9,15 +9,16 @@ import star1 from "../assets/star1.png";
 import star2 from "../assets/star2.png";
 import { useNavigate, useParams } from "react-router-dom";
 import { Sidebar } from "./Sidebar";
-import fileIcon from "../assets/icons8-cloud-file-64.png"
-import folderIcon from '../assets/fileTypeIcons/folderIcon.png';
-import audioIcon from '../assets/fileTypeIcons/audioIcon.png';
-import docIcon from '../assets/fileTypeIcons/docIcon.png';
-import imageIcon from '../assets/fileTypeIcons/imageIcon.png';
-import videoIcon from '../assets/fileTypeIcons/videoIcon.png';
-import pdfIcon from '../assets/fileTypeIcons/pdfIcon.png';
-import zipIcon from '../assets/fileTypeIcons/zipIcon.png';
-import codeIcon from '../assets/fileTypeIcons/code.png';
+import fileIcon from "../assets/icons8-cloud-file-64.png";
+import folderIcon from "../assets/fileTypeIcons/folderIcon.png";
+import audioIcon from "../assets/fileTypeIcons/audioIcon.png";
+import docIcon from "../assets/fileTypeIcons/docIcon.png";
+import imageIcon from "../assets/fileTypeIcons/imageIcon.png";
+import videoIcon from "../assets/fileTypeIcons/videoIcon.png";
+import pdfIcon from "../assets/fileTypeIcons/pdfIcon.png";
+import zipIcon from "../assets/fileTypeIcons/zipIcon.png";
+import codeIcon from "../assets/fileTypeIcons/code.png";
+import IJS from "image-js";
 
 interface File {
   id: string;
@@ -39,11 +40,16 @@ const UserData: React.FC = () => {
   const [allItems, setAllItems] = useState<File[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<string[]>([]);
   const [filterStarredFiles, setFilterStarredFiles] = useState<boolean>(false);
-  const [destinationFolder, setDestinationFolder] = useState<string | null>(null);
+  const [destinationFolder, setDestinationFolder] = useState<string | null>(
+    null
+  );
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { fileId } = useParams<{ fileId: string }>();
   const navigate = useNavigate();
+  const [imagePreviews, setImagePreviews] = useState<{ [key: string]: string }>(
+    {}
+  ); // Image previews for files
 
   // Fetch user files
   const fetchUserData = async () => {
@@ -226,32 +232,48 @@ const UserData: React.FC = () => {
   // File types for icons
   const fileTypeIcon = (file: File) => {
     let displayIcon;
-  
+
     switch (file.type.toLowerCase()) {
-      case 'folder':
+      case "folder":
         displayIcon = folderIcon;
         break;
-      case 'image':
+      /* case "image":
         displayIcon = imageIcon;
-        break;
-      case 'pdf':
+        break; */
+      case "pdf":
         displayIcon = pdfIcon;
         break;
-      case 'zip':
+      case "zip":
         displayIcon = zipIcon;
         break;
-      case 'word':
+      case "word":
         displayIcon = docIcon;
         break;
-      case 'video':
+      case "video":
         displayIcon = videoIcon;
         break;
       default:
         displayIcon = fileIcon; // Default for other file types
         break;
     }
-  
+
     return displayIcon;
+  };
+
+  const processFile = async (file: File) => {
+    if (imagePreviews[file.id]) {
+      return;
+    }
+    try {
+      let image = await IJS.load(file.url);
+      let resizedImage = image.resize({
+        width: 100,
+      });
+      const dataUrl = resizedImage.toDataURL();
+      setImagePreviews((prev) => ({ ...prev, [file.id]: dataUrl }));
+    } catch (error) {
+      console.error("Error loading the preview:", error);
+    }
   };
 
   return (
@@ -260,63 +282,58 @@ const UserData: React.FC = () => {
         <Sidebar />
       </aside>
 
-       {/* Main Content Section */}
+      {/* Main Content Section */}
       <div className="w-5/6 py-5 px-13 overflow-auto">
         {/* Title Section */}
-        <h2 className="font-bold text-2xl mb-4 font-bebas text-3xl">Your Files</h2>
+        <h2 className="font-bold text-2xl mb-4 font-bebas text-3xl">
+          Your Files
+        </h2>
 
-       
-      {/* Controls section (Checkbox + Upload + New Folder) */}
-      <div className="flex justify-between items-center w-full mb-6">
-        {/* Favourites Checkbox */}
-        <div className="flex items-center space-x-3">
-          <label className="text-white font-medium">Favourites</label>
-          <label className="relative inline-block w-14 h-8 cursor-pointer">
-            <input
-              type="checkbox"
-              className="sr-only peer"
-              checked={filterStarredFiles}
-              onChange={() => setFilterStarredFiles(!filterStarredFiles)}
-            />
-            <div className="absolute inset-0 bg-purple-300 rounded-full transition-all duration-400 peer-checked:bg-purple-500 peer-focus:ring-2 peer-focus:ring-purple-400"></div>
-            <div className="absolute top-1 left-1 bg-white w-6 h-6 rounded-full shadow-lg transition-all duration-400 peer-checked:translate-x-6 peer-checked:w-6 peer-checked:h-6 peer-checked:bottom-0"></div>
-          </label>
-        </div>
+        {/* Controls section (Checkbox + Upload + New Folder) */}
+        <div className="flex justify-between items-center w-full mb-6">
+          {/* Favourites Checkbox */}
+          <div className="flex items-center space-x-3">
+            <label className="text-white font-medium">Favourites</label>
+            <label className="relative inline-block w-14 h-8 cursor-pointer">
+              <input
+                type="checkbox"
+                className="sr-only peer"
+                checked={filterStarredFiles}
+                onChange={() => setFilterStarredFiles(!filterStarredFiles)}
+              />
+              <div className="absolute inset-0 bg-purple-300 rounded-full transition-all duration-400 peer-checked:bg-purple-500 peer-focus:ring-2 peer-focus:ring-purple-400"></div>
+              <div className="absolute top-1 left-1 bg-white w-6 h-6 rounded-full shadow-lg transition-all duration-400 peer-checked:translate-x-6 peer-checked:w-6 peer-checked:h-6 peer-checked:bottom-0"></div>
+            </label>
+          </div>
 
-        {/* File Upload & Folder Creation Buttons */}
-        <div className="flex items-center space-x-4">
-          {/* Folder selection dropdown */}
+          {/* File Upload & Folder Creation Buttons */}
+          <div className="flex items-center space-x-4">
+            {/* Folder selection dropdown */}
 
-          {selectedFiles.length > 0 ? (
-            <>
-              <select
-                className="simpleButton mx-4" // Adjust padding here
-                value={destinationFolder || ""}
-                onChange={(e) => setDestinationFolder(e.target.value)}
-              >
-                <option value="">Select Folder</option>
-                {folders.map((folder: File) => (
-                  <option key={folder.id} value={folder.id}>
-                    {folder.name}
-                  </option>
-                ))}
-              </select>
-                <button
-                  onClick={handleMoveFiles}
-                  className="simpleButton"
+            {selectedFiles.length > 0 ? (
+              <>
+                <select
+                  className="simpleButton mx-4" // Adjust padding here
+                  value={destinationFolder || ""}
+                  onChange={(e) => setDestinationFolder(e.target.value)}
                 >
+                  <option value="">Select Folder</option>
+                  {folders.map((folder: File) => (
+                    <option key={folder.id} value={folder.id}>
+                      {folder.name}
+                    </option>
+                  ))}
+                </select>
+                <button onClick={handleMoveFiles} className="simpleButton">
                   Move Files
+                </button>
+              </>
+            ) : (
+              <button onClick={handleMoveFiles} className="simpleButton">
+                Move Files
               </button>
-            </>
-          ) : (
-            <button
-              onClick={handleMoveFiles}
-              className="simpleButton"
-            >
-              Move Files
-            </button>
-          )}
-          
+            )}
+
             {/* <label className="block font-medium">Move to folder:</label>
             <select
               className="simpleButton p-18"
@@ -337,97 +354,116 @@ const UserData: React.FC = () => {
             >
               Move Files
             </button> */}
-          
-          <FileUploader onUpload={handleUpload} />
-          <FolderCreation onFolderCreate={fetchUserData} />
+
+            <FileUploader onUpload={handleUpload} />
+            <FolderCreation onFolderCreate={fetchUserData} />
+          </div>
         </div>
-      </div>
 
-      {/* Files List */}
-      {isLoading ? (
-        <LoadingSpinner />
-      ) : error ? (
-        <div className="text-red-500">{error}</div>
-      ) : allItems.length === 0 ? (
-        <div>
-          <p className="text-xl">No files available. Please upload a file!</p>
-        </div>
-      ) : (
-        <div className="space-y-4  w-full">
-          <ul className="flex items-center flex-wrap flex-row space-x-14">
-            {allItems.map((file) =>
-              !filterStarredFiles || checkStarred(file.tags) ? (
-                <div
-                  className="card1 my-8"
-                  key={file.id}
-                >
-                  {/* Card Content */}
-                  <div className="relative z-10 overflow-hidden"> 
-                    <li className="space-y-2">
-                      <div className="flex justify-start items-start space-x-2 text-xl">
+        {/* Files List */}
+        {isLoading ? (
+          <LoadingSpinner />
+        ) : error ? (
+          <div className="text-red-500">{error}</div>
+        ) : allItems.length === 0 ? (
+          <div>
+            <p className="text-xl">No files available. Please upload a file!</p>
+          </div>
+        ) : (
+          <div className="space-y-4  w-full">
+            <ul className="flex items-center flex-wrap flex-row space-x-14">
+              {allItems.map((file) =>
+                !filterStarredFiles || checkStarred(file.tags) ? (
+                  <div className="card1 my-8" key={file.id}>
+                    {/* Card Content */}
+                    <div className="relative z-10 overflow-hidden">
+                      <li className="space-y-2">
+                        <div className="flex justify-start items-start space-x-2 text-xl">
+                          {/* display preview picture if img */}
+                          {file.type === "image" ? (
+                            <img
+                              src={imagePreviews[file.id] || imageIcon} // Platzhalter-Icon bis Vorschau geladen ist
+                              alt={file.name}
+                              className="w-20 h-20 object-contain"
+                              onLoad={() => processFile(file)} // Bild verarbeiten
+                            />
+                          ) : (
+                            <img
+                              src={fileTypeIcon(file)}
+                              alt="file"
+                              className="w-15 h-15"
+                            />
+                          )}
 
-                        <img src={fileTypeIcon(file)} alt="file" className="w-15 h-15" />
+                          <strong
+                            onClick={() =>
+                              handleFolderClick(file.id, file.type)
+                            }
+                            className="cursor-pointer hover:underline"
+                          >
+                            {file.name.length > 12
+                              ? `${file.name.substring(0, 12)}...`
+                              : file.name}
+                          </strong>
+                        </div>
 
-                        <strong
-                          onClick={() => handleFolderClick(file.id, file.type)}
-                          className="cursor-pointer hover:underline"
-                        >
-                           {file.name.length > 12 ? `${file.name.substring(0, 12)}...` : file.name}
-                        </strong>
-                        
-                      </div>
+                        <p className="text-sm mt-2">
+                          <strong>File Size:</strong>{" "}
+                          {(file.file_size / 1000000).toFixed(3)} MB
+                        </p>
+                        <p className="text-sm">
+                          <strong>File Type:</strong> {file.type}
+                        </p>
+                        <p className="text-sm">
+                          <strong>Uploaded on:</strong>{" "}
+                          {file.created_at.slice(0, 10)}
+                        </p>
 
-                      <p className="text-sm mt-2">
-                        <strong>File Size:</strong> {(file.file_size / 1000000).toFixed(3)} MB
-                      </p>
-                      <p className="text-sm">
-                        <strong>File Type:</strong> {file.type}
-                      </p>
-                      <p className="text-sm">
-                        <strong>Uploaded on:</strong> {file.created_at.slice(0, 10)}
-                      </p>
+                        <div className="flex items-center mt-2">
+                          <input
+                            id={`checkbox-${file.id}`}
+                            type="checkbox"
+                            checked={selectedFiles.includes(file.id)}
+                            onChange={() => toggleFileSelection(file.id)}
+                            className="mr-2"
+                          />
+                          <label
+                            className="cursor-pointer text-sm"
+                            htmlFor={`checkbox-${file.id}`}
+                          >
+                            Select for moving
+                          </label>
+                        </div>
+                        <div className="flex flex-row justify-between items-center mt-2">
+                          <img
+                            src={checkStarred(file.tags) ? star2 : star1}
+                            alt="Star"
+                            className="star-button bg-none border-none cursor-pointer w-5 h-5 ml-4 "
+                            onClick={() => handleStarFile(file.id, file.tags)}
+                          />
+                          <FileDeleter
+                            fileId={file.id}
+                            onDelete={handleFileDeleted}
+                          />
+                        </div>
+                      </li>
+                    </div>
 
-                      <div className="flex items-center mt-2">
-                        <input
-                          id={`checkbox-${file.id}`}
-                          type="checkbox"
-                          checked={selectedFiles.includes(file.id)}
-                          onChange={() => toggleFileSelection(file.id)}
-                          className="mr-2"
-                        />
-                        <label className="cursor-pointer text-sm" htmlFor={`checkbox-${file.id}`}>Select for moving</label>
-                      </div>
-                      <div className="flex flex-row justify-between items-center mt-2">
-                        <img
-                          src={checkStarred(file.tags) ? star2 : star1}
-                          alt="Star"
-                          className="star-button bg-none border-none cursor-pointer w-5 h-5 ml-4 "
-                          onClick={() => handleStarFile(file.id, file.tags)}
-                        />
-                        <FileDeleter fileId={file.id} onDelete={handleFileDeleted} />
-                      </div>
-                      
-                    </li>
+                    {/* Dark overlay using absolute position */}
+                    <div className="absolute inset-0 bg-black opacity-20 rounded-xl z-0"></div>
                   </div>
+                ) : null
+              )}
+            </ul>
 
-                  {/* Dark overlay using absolute position */}
-                  <div className="absolute inset-0 bg-black opacity-20 rounded-xl z-0"></div>
-                </div>
-              ) : null
+            {fileId !== "0" && (
+              <button onClick={handleBack} className="simpleButton mt-20">
+                ← Back
+              </button>
             )}
-          </ul>
-
-          {fileId !== "0" && (
-          <button
-            onClick={handleBack}
-            className="simpleButton mt-20"
-          >
-            ← Back
-          </button>
+          </div>
         )}
-        </div>
-      )}
-    </div>
+      </div>
     </div>
   );
 };
