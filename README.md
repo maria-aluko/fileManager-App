@@ -11,17 +11,22 @@ Built in TypeScript. Styling in Tailwind.
 Users can:
 
 - Create an account
+- Log in with an existing account
 - View and delete their files
 - Upload new files
 - Create folders and move files within them
+- Mark files as favorites and filter based on that
 
 API: https://unelmacloud.com/api-docs
 
-## Enhancements:
+## Future Enhancements:
 
 - sharing option
-- folders for file types in a circle with some default folders to form a 3d circle
 - automatically sorting functionality to sort the files to the right category
 - opening the folder shows all the files with a blurry preview
 - opening the file with the corresponding "program" its built in in unelma cloud - pops up as an overlay
 - shows image in original size
+
+Built by:
+
+[Stefanie Jana](https://github.com/stabjana), [Sneha Ramalingam](https://github.com/SneRam-0105), [Ruth Asafu-Adjaye](https://github.com/RuthieRuth), [Maria Aluko](https://github.com/maria-aluko),
